@@ -4,68 +4,46 @@ import {bindActionCreators} from 'redux';
 import { Container, Row, Col } from 'reactstrap';
 import  NavbarComp from '../home/partials/navbar';
 import Total from './total';
+import Leaderboard from './leaderboard';
 import Bohurt from './bohurt';
 import SwordShield from './swordShield';
 import Profight from    './profight';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
+import SwordBuckler from    './swordBuckler';
+import Longsword from    './longsword';
+import Polearm from    './polearm';
+import Triathlon from    './triathlon';
 import { Button } from 'semantic-ui-react'
+import { Tab } from 'semantic-ui-react'
+import { fetchFighters } from '../../actions';
 
 
 class TabsComp extends Component{
     constructor(props) {
         super(props);
-        this.state = {open: false};
 
-        this.state.category = 'total';
+        this.state = {tabs:[]};
+    }
+    componentDidMount(){
+        this.props.fetchFighters();
+        this.state = {tabs:[
+            { menuItem: 'Total', render: () => <Tab.Pane attached={false}><Total fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Leaderboard', render: () => <Tab.Pane attached={false}><Leaderboard/></Tab.Pane> },
+            { menuItem: 'Bohurt', render: () => <Tab.Pane attached={false}><Bohurt fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Profight', render: () => <Tab.Pane attached={false}><Profight fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Sword & Shield', render: () => <Tab.Pane attached={false}><SwordShield fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Sword & Buckler', render: () => <Tab.Pane attached={false}><SwordBuckler fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Longsword', render: () => <Tab.Pane attached={false}><Longsword fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Polearm', render: () => <Tab.Pane attached={false}><Polearm fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Triathlon', render: () => <Tab.Pane attached={false}><Triathlon fighters={this.props.fighters}/></Tab.Pane> },
+        ]}
     }
 
-    handleToggle = () => this.setState({open: !this.state.open});
-
-    handleClose = () => this.setState({open: false});
-
-    setCategory = (category) => {
-        console.log(category);
-        this.state.category = category;
-    };
-
     render(){
-
         return(
             <div>
                 <NavbarComp/>
                 <Container className="top-section" >
-                    <div>
-                        <Button className="float-right" secondary onClick={this.handleToggle}>Category</Button>
-                        {this.state.category == 'total' &&
-                            <Total/>
-                        }
-                        {this.state.category == 'bohurt' &&
-                            <Bohurt/>
-                        }
-                        {this.state.category == 'profight' &&
-                            <Profight/>
-                        }
-                        {this.state.category == 'swordShield' &&
-                            <SwordShield/>
-                        }
-
-
-                        <Drawer
-                            containerStyle={{backgroundColor:'black'}}
-                            docked={false}
-                            open={this.state.open}
-                            onRequestChange={(open) => this.setState({open})}
-                        >
-                            <MenuItem onClick={() => {this.handleClose(); this.setCategory('total')}}  >Total</MenuItem>
-                            <MenuItem onClick={() => {this.handleClose(); this.setCategory('leaderboard')}} >LeaderBoard</MenuItem>
-                            <MenuItem onClick={() => {this.handleClose(); this.setCategory('bohurt')}}  >Bohurt</MenuItem>
-                            <MenuItem onClick={() => {this.handleClose(); this.setCategory('profight')}} >Profight</MenuItem>
-                            <MenuItem onClick={() => {this.handleClose(); this.setCategory('swordShield')}} >Sword & Shield</MenuItem>
-                            <MenuItem onClick={() => {this.handleClose(); this.setCategory('longsword')}} >Longsword</MenuItem>
-                        </Drawer>
-                    </div>
+                    <Tab className="table-responsive-custom" menu={{ secondary: true, pointing: true }} panes={this.state.tabs} />
                 </Container>
             </div>
         )
@@ -73,11 +51,7 @@ class TabsComp extends Component{
 }
 
 function mapStateToProps(state) {
-    return { };
+    return { fighters: state.fighters};
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({}, );
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(TabsComp);
+export default connect(mapStateToProps,{fetchFighters})(TabsComp);

@@ -1,57 +1,69 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
-
-import { Header, Image, Container } from 'semantic-ui-react'
-import { Table } from 'reactstrap';
+import { user } from '../../helpers/user';
+import { Header, Image, Container, Table } from 'semantic-ui-react'
 
 
 class Total extends Component{
+    renderRows(){
+        return this.props.fighters.map((fighter) => {
+            return(
+                <Table.Row key={fighter.id}>
+                    <Table.Cell>
+                        <Header as='h4' image>
+                            <Image src={user.getImage(fighter)} shape='rounded' size='mini' />
+                            <Header.Content>
+                                {fighter.name}
+                                <Header.Subheader>White Company</Header.Subheader>
+                            </Header.Content>
+                        </Header>
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.bohurtTable.won}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.bohurtTable.down}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.bohurtTable.lastMan}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        { user.ratioBohurt(fighter) }%
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.bohurtTable.suicide}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.bohurtTable.points}
+                    </Table.Cell>
+                </Table.Row>
+            )
+        });
+    }
+
+
     render(){
         return(
-                <Table responsive inverse>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Fighter</th>
-                        <th>Fights</th>
-                        <th>Won</th>
-                        <th>Down</th>
-                        <th>Last Man</th>
-                        <th>Ratio</th>
-                        <th>Suicide</th>
-                        <th>Points</th>
+            <div>
+                <Table className="table-responsive-custom" celled inverted selectable unstackable>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Fighter</Table.HeaderCell>
+                            <Table.HeaderCell width="1">Win</Table.HeaderCell>
+                            <Table.HeaderCell width="1">Down</Table.HeaderCell>
+                            <Table.HeaderCell width="1">Standing</Table.HeaderCell>
+                            <Table.HeaderCell width="1">Ratio</Table.HeaderCell>
+                            <Table.HeaderCell width="1">Suicide</Table.HeaderCell>
+                            <Table.HeaderCell width="1">Points</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <Header as='h4' image>
-                            <Image src='/assets/images/avatar/small/lena.png' shape='rounded' size='mini' />
-                            <Header.Content>
-                                Lena
-                                <Header.Subheader>Human Resources</Header.Subheader>
-                            </Header.Content>
-                            </Header>
-                        </td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-
-                    </tr>
-
-                    </tbody>
+                    <Table.Body>
+                        {this.renderRows()}
+                    </Table.Body>
                 </Table>
-
-
-
-
+            </div>
         )
     }
 }

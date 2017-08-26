@@ -5,7 +5,7 @@ import { Header, Image, Table } from 'semantic-ui-react'
 import { user } from '../../helpers/user';
 
 
-class SwordShield extends Component{
+class Longsword extends Component{
     renderRows(){
         return this.props.fighters.map((fighter) => {
             return(
@@ -20,13 +20,13 @@ class SwordShield extends Component{
                         </Header>
                     </Table.Cell>
                     <Table.Cell width="1" >
-                        {fighter.swordShieldTable.win}
+                        {fighter.longswordTable.win}
                     </Table.Cell>
                     <Table.Cell width="1" >
-                        {fighter.swordShieldTable.loss}
+                        {fighter.longswordTable.loss}
                     </Table.Cell>
                     <Table.Cell width="1" >
-                        {fighter.swordShieldTable.points}
+                        {fighter.longswordTable.points}
                     </Table.Cell>
                 </Table.Row>
             )
@@ -64,4 +64,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({}, );
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(SwordShield);
+export default connect(mapStateToProps,mapDispatchToProps)(Longsword);

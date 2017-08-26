@@ -2,16 +2,56 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Header, Image, Table } from 'semantic-ui-react'
+import { user } from '../../helpers/user';
+
 
 class Profight extends Component{
+    renderRows(){
+        return this.props.fighters.map((fighter) => {
+            return(
+                <Table.Row key={fighter.id}>
+                    <Table.Cell>
+                        <Header as='h4' image>
+                            <Image src={user.getImage(fighter)} shape='rounded' size='mini' />
+                            <Header.Content>
+                                {fighter.name}
+                                <Header.Subheader>White Company</Header.Subheader>
+                            </Header.Content>
+                        </Header>
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.profightTable.win}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.profightTable.ko}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.profightTable.loss}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.profightTable.fc1}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.profightTable.fc2}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.profightTable.fc3}
+                    </Table.Cell>
+                    <Table.Cell width="1" >
+                        {fighter.profightTable.points}
+                    </Table.Cell>
+                </Table.Row>
+            )
+        });
+    }
+
     render(){
         return(
             <div>
-                <Table celled inverted selectable unstackable>
-
+                <Table className="table-responsive-custom" celled inverted selectable unstackable>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell width="1">Fighter</Table.HeaderCell>
+                            <Table.HeaderCell>Fighter</Table.HeaderCell>
                             <Table.HeaderCell width="1">Win</Table.HeaderCell>
                             <Table.HeaderCell width="1">KO</Table.HeaderCell>
                             <Table.HeaderCell width="1">Lost</Table.HeaderCell>
@@ -23,40 +63,7 @@ class Profight extends Component{
                     </Table.Header>
 
                     <Table.Body>
-                        <Table.Row>
-                            <Table.Cell>
-                                <Header as='h4' image>
-                                    <Image src='/assets/images/avatar/small/lena.png' shape='rounded' size='mini' />
-                                    <Header.Content>
-                                        Lena
-                                        <Header.Subheader>Human Resources</Header.Subheader>
-                                    </Header.Content>
-                                </Header>
-                            </Table.Cell>
-                            <Table.Cell width="1" >
-                                22
-                            </Table.Cell>
-                            <Table.Cell width="1" >
-                                22
-                            </Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>
-                                <Header as='h4' image>
-                                    <Image src='/assets/images/avatar/small/matthew.png' shape='rounded' size='mini' />
-                                    <Header.Content>
-                                        Matthew
-                                        <Header.Subheader>Fabric Design</Header.Subheader>
-                                    </Header.Content>
-                                </Header>
-                            </Table.Cell>
-                            <Table.Cell>
-                                15
-                            </Table.Cell>
-                            <Table.Cell width="1" >
-                                22
-                            </Table.Cell>
-                        </Table.Row>
+                        {this.renderRows()}
                     </Table.Body>
                 </Table>
             </div>

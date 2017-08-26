@@ -4,8 +4,16 @@ body {
   font-family: sans-serif;
 }
 
-.black-background{
-  background-color: black!important;
+.table-responsive-custom{
+  overflow-x: auto;
+  display: block;
+}
+
+.ui.secondary.pointing.menu {
+  overflow-x: auto;
+  margin-left: 0;
+  margin-right: 0;
+  border-bottom: 2px solid rgba(34,36,38,.15);
 }
 
 .top-section{

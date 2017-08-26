@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-//import PostReducer from './reducerPostIndex';
-
+import FighterReducer from './reucerFightersRanking';
+import LeaderboardReducer from './reducerLeaderboard';
 
 const rootReducer = combineReducers({
-    // posts:PostReducer,
-     form: formReducer
+    fighters:FighterReducer,
+    leaderboard:LeaderboardReducer,
+    form: formReducer
 });
 
 export default rootReducer;

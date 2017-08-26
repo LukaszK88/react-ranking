@@ -1,68 +1,58 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
-
+import { user } from '../../helpers/user';
 import { Header, Image, Table, Container } from 'semantic-ui-react'
 
 
 class Total extends Component{
+
+    renderRows(){
+        return this.props.fighters.map((fighter) => {
+           return(
+               <Table.Row key={fighter.id}>
+                   <Table.Cell>
+                       <Header as='h4' image>
+                           <Image src={user.getImage(fighter)} shape='rounded' size='mini' />
+                           <Header.Content>
+                               {fighter.name}
+                               <Header.Subheader>White Company</Header.Subheader>
+                           </Header.Content>
+                       </Header>
+                   </Table.Cell>
+                   <Table.Cell width="1" >
+                       {fighter.total_points}
+                   </Table.Cell>
+               </Table.Row>
+           )
+        });
+    }
+
     render(){
         return(
             <div>
-
-
                 <Table celled inverted selectable unstackable>
-
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Fighters</Table.HeaderCell>
                             <Table.HeaderCell width="1">Total Points</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-
                     <Table.Body>
-                        <Table.Row>
-                            <Table.Cell>
-                                <Header as='h4' image>
-                                    <Image src='/assets/images/avatar/small/lena.png' shape='rounded' size='mini' />
-                                    <Header.Content>
-                                        Lena
-                                        <Header.Subheader>Human Resources</Header.Subheader>
-                                    </Header.Content>
-                                </Header>
-                            </Table.Cell>
-                            <Table.Cell width="1" >
-                                22
-                            </Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>
-                                <Header as='h4' image>
-                                    <Image src='/assets/images/avatar/small/matthew.png' shape='rounded' size='mini' />
-                                    <Header.Content>
-                                        Matthew
-                                        <Header.Subheader>Fabric Design</Header.Subheader>
-                                    </Header.Content>
-                                </Header>
-                            </Table.Cell>
-                            <Table.Cell>
-                                15
-                            </Table.Cell>
-                        </Table.Row>
+                        {this.renderRows()}
                     </Table.Body>
                 </Table>
-
             </div>
         )
     }
 }
 
 function mapStateToProps(state) {
-    return { };
+    return {};
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({}, );
-}
+// function mapDispatchToProps(dispatch) {
+//     return bindActionCreators();
+// }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Total);
+export default connect(mapStateToProps)(Total);

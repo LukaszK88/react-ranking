@@ -1,11 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
-import {
-    Button,
-    Container,
-    Menu
-} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 

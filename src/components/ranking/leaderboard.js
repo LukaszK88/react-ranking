@@ -3,30 +3,35 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Header, Image, Table } from 'semantic-ui-react'
 import { user } from '../../helpers/user';
+import { fetchLeaderboard } from '../../actions';
+
+import _ from 'lodash';
+
+class Leaderboard extends Component{
+
+    componentDidMount() {
+        this.props.fetchLeaderboard();
+    }
 
 
-class SwordShield extends Component{
     renderRows(){
-        return this.props.fighters.map((fighter) => {
+        return _.map(this.props.leaderboard, row => {
             return(
-                <Table.Row key={fighter.id}>
+                <Table.Row key={row.category}>
                     <Table.Cell>
                         <Header as='h4' image>
-                            <Image src={user.getImage(fighter)} shape='rounded' size='mini' />
+                            {/*<Image src={user.getImage(fighter)} shape='rounded' size='mini' />*/}
                             <Header.Content>
-                                {fighter.name}
+                                {row.name}
                                 <Header.Subheader>White Company</Header.Subheader>
                             </Header.Content>
                         </Header>
                     </Table.Cell>
-                    <Table.Cell width="1" >
-                        {fighter.swordShieldTable.win}
+                    <Table.Cell width="2" >
+                        {row.category}
                     </Table.Cell>
                     <Table.Cell width="1" >
-                        {fighter.swordShieldTable.loss}
-                    </Table.Cell>
-                    <Table.Cell width="1" >
-                        {fighter.swordShieldTable.points}
+                        {row.max_points}
                     </Table.Cell>
                 </Table.Row>
             )
@@ -41,12 +46,10 @@ class SwordShield extends Component{
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Fighter</Table.HeaderCell>
-                            <Table.HeaderCell width="1">Win</Table.HeaderCell>
-                            <Table.HeaderCell width="1">Lost</Table.HeaderCell>
+                            <Table.HeaderCell width="2">Category</Table.HeaderCell>
                             <Table.HeaderCell width="1">Points</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-
                     <Table.Body>
                         {this.renderRows()}
                     </Table.Body>
@@ -57,11 +60,7 @@ class SwordShield extends Component{
 }
 
 function mapStateToProps(state) {
-    return { };
+    return {leaderboard: state.leaderboard };
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({}, );
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(SwordShield);
+export default connect(mapStateToProps,{fetchLeaderboard})(Leaderboard);
