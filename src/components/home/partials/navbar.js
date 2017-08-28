@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-
+import Login from '../../auth/login';
 
 class NavbarComp extends Component{
     constructor(props) {
@@ -19,19 +19,28 @@ class NavbarComp extends Component{
             isOpen: !this.state.isOpen
         });
     }
+
+
+
     render(){
         return(
             <div>
                 <Navbar color="faded" light toggleable>
                     <NavbarToggler right onClick={this.toggle} />
-                    <NavbarBrand href="/">reactstrap</NavbarBrand>
+                    <Link to="/"><NavbarBrand>White Company</NavbarBrand></Link>
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink href="/ranking">Ranking</NavLink>
+                                <Link to="/ranking"><NavLink>Ranking</NavLink></Link>
                             </NavItem>
                             <NavItem>
                                 <NavLink href="https://github.com/reactstrap/reactstrap">Github</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink><Login/></NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="https://github.com/reactstrap/reactstrap">Sign up</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
