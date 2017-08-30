@@ -2,8 +2,12 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import Login from '../../auth/login';
+import {logout} from '../../../actions';
+import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import DropdownMenu from 'react-dd-menu';
+
+
 
 class NavbarComp extends Component{
     constructor(props) {
@@ -11,8 +15,12 @@ class NavbarComp extends Component{
 
         this.toggle = this.toggle.bind(this);
         this.state = {
-            isOpen: false
+            isOpen: false,
+            isMenuOpen: false
         };
+        this.click = this.click.bind(this);
+        this.toggleDropdown = this.toggleDropdown.bind(this);
+        this.close = this.close.bind(this);
     }
     toggle() {
         this.setState({
@@ -20,42 +28,91 @@ class NavbarComp extends Component{
         });
     }
 
+    toggleDropdown() {
+        this.setState({ isMenuOpen: !this.state.isMenuOpen });
+    }
 
+    close() {
+        this.setState({ isMenuOpen: false });
+    }
+
+    click() {
+        console.log('You clicked an item');
+    }
+
+    logout() {
+        console.log('logout');
+        this.props.logout();
+    }
+
+    renderLoggedIn(){
+        const menuOptions = {
+            isOpen: this.state.isMenuOpen,
+            close: this.close,
+            toggle: <Button type="button" onClick={this.toggleDropdown}>{this.props.currentUser.user.username} <i className="fa fa-chevron-down"></i></Button>,
+            align: 'right'
+        };
+
+        if(this.props.currentUser) {
+            return (
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/ranking">Ranking</Link>
+                    </li>
+                    <DropdownMenu {...menuOptions}>
+                        <li><a href="#">Profile</a></li>
+                        <li><button type="button" onClick={this.click}>Personal Info</button></li>
+                    </DropdownMenu>
+
+                    <li className="nav-item">
+                        <Button onClick={this.logout.bind(this)}>Logout</Button>
+                    </li>
+                </ul>
+            )
+        }
+    }
+
+    renderLoggedOut(){
+        if(!this.props.currentUser) {
+            return (
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/ranking">Ranking</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Login/>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link " href="#">Sign Up</a>
+                    </li>
+                </ul>
+            )
+        }
+    }
 
     render(){
+
         return(
-            <div>
-                <Navbar color="faded" light toggleable>
-                    <NavbarToggler right onClick={this.toggle} />
-                    <Link to="/"><NavbarBrand>White Company</NavbarBrand></Link>
-                    <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav className="ml-auto" navbar>
-                            <NavItem>
-                                <Link to="/ranking"><NavLink>Ranking</NavLink></Link>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="https://github.com/reactstrap/reactstrap">Github</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink><Login/></NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="https://github.com/reactstrap/reactstrap">Sign up</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-            </div>
+            <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+                <button onClick={this.toggle} className="navbar-toggler navbar-toggler-right" type="button" >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <a className="navbar-brand" href="#">Navbar</a>
+
+                <div className={(!this.state.isOpen ? 'collapse' : '') + ' navbar-collapse'}>
+                    { this.props.currentUser ? this.renderLoggedIn() : this.renderLoggedOut()}
+                </div>
+            </nav>
         )
     }
 }
 
 function mapStateToProps(state) {
-    return { };
+    return { currentUser: state.currentUser };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({}, );
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(NavbarComp);
+export default connect(mapStateToProps,{logout})(NavbarComp);

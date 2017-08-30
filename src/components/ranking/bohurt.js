@@ -6,7 +6,13 @@ import { Header, Image, Container, Table } from 'semantic-ui-react'
 
 
 class Total extends Component{
+    constructor(props){
+        super(props);
+        console.log(this.props.currentUser);
+    }
+
     renderRows(){
+        const { admin } = this.props.currentUser;
         return this.props.fighters.map((fighter) => {
             return(
                 <Table.Row key={fighter.id}>
@@ -37,6 +43,11 @@ class Total extends Component{
                     <Table.Cell width="1" >
                         {fighter.bohurtTable.points}
                     </Table.Cell>
+                    { admin &&
+                    <Table.Cell width="1" >
+                        <i className="fa fa-pencil-square-o"></i>
+                    </Table.Cell>
+                    }
                 </Table.Row>
             )
         });
@@ -44,7 +55,10 @@ class Total extends Component{
 
 
     render(){
+        const { admin } = this.props.currentUser;
+
         return(
+
             <div>
                 <Table className="table-responsive-custom" celled inverted selectable unstackable>
                     <Table.Header>
@@ -56,6 +70,10 @@ class Total extends Component{
                             <Table.HeaderCell width="1">Ratio</Table.HeaderCell>
                             <Table.HeaderCell width="1">Suicide</Table.HeaderCell>
                             <Table.HeaderCell width="1">Points</Table.HeaderCell>
+                            { admin &&
+                            <Table.HeaderCell width="1"></Table.HeaderCell>
+                            }
+
                         </Table.Row>
                     </Table.Header>
 
@@ -69,7 +87,7 @@ class Total extends Component{
 }
 
 function mapStateToProps(state) {
-    return { };
+    return { currentUser:state.currentUser };
 }
 
 function mapDispatchToProps(dispatch) {

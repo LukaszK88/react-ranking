@@ -10,19 +10,20 @@ import registerServiceWorker from './registerServiceWorker';
 import 'semantic-ui-css/semantic.min.css';
 import reducers from './reducers';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-dd-menu/dist/react-dd-menu.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import createHistory from 'history/createBrowserHistory'
 import Home from './components/home/home';
 import TabsComp from './components/ranking/tabs';
-import Auth from './components/auth/auth';
 import thunk from 'redux-thunk';
 import setAuthorizationToken from './utils/setAuthorizationToken';
+import {currentUser} from './actions';
 
 const createStoreWithMiddleware = createStore(reducers,
-    compose(applyMiddleware(thunk,promise))
+    compose(applyMiddleware(thunk,promise)
+    )
 );
-    //compose(applyMiddleware(promise,thunk))(createStore);
 injectTapEventPlugin();
 
 const history = createHistory();
@@ -33,8 +34,10 @@ const muiTheme = getMuiTheme({
         primary1Color: '#212121'
     }
 });
-
-setAuthorizationToken(window.localStorage.getItem('token'));
+if(window.localStorage.getItem('token')) {
+    setAuthorizationToken(window.localStorage.getItem('token'));
+    createStoreWithMiddleware.dispatch(currentUser(window.localStorage.getItem('token')));
+}
 
 
 ReactDOM.render(

@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux';
 import { Container, Row, Col } from 'reactstrap';
 import  NavbarComp from '../home/partials/navbar';
 import Total from './total';

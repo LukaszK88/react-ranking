@@ -1,19 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
-import {
-    Button,
-    Container,
-    Divider,
-    Grid,
-    Header,
-    Icon,
-    Image,
-    List,
-    Menu,
-    Segment,
-    Visibility,
-} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import  NavbarComp from './partials/navbar';
 
