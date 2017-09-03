@@ -3,17 +3,20 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { user } from '../../helpers/user';
 import { Header, Image, Container, Table } from 'semantic-ui-react'
+import UpdateBohurt from './updates/bohurt';
+import _ from 'lodash';
 
 
 class Total extends Component{
     constructor(props){
         super(props);
-        console.log(this.props.currentUser);
+
     }
 
     renderRows(){
         const { admin } = this.props.currentUser;
         return this.props.fighters.map((fighter) => {
+
             return(
                 <Table.Row key={fighter.id}>
                     <Table.Cell>
@@ -45,7 +48,7 @@ class Total extends Component{
                     </Table.Cell>
                     { admin &&
                     <Table.Cell width="1" >
-                        <i className="fa fa-pencil-square-o"></i>
+                        <UpdateBohurt events={this.props.events} fighter={fighter}/>
                     </Table.Cell>
                     }
                 </Table.Row>

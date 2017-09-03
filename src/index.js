@@ -10,6 +10,7 @@ import registerServiceWorker from './registerServiceWorker';
 import 'semantic-ui-css/semantic.min.css';
 import reducers from './reducers';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-input-range/lib/css/index.css';
 import 'react-dd-menu/dist/react-dd-menu.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';

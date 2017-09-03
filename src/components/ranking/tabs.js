@@ -14,6 +14,7 @@ import Triathlon from    './triathlon';
 import { Button } from 'semantic-ui-react'
 import { Tab } from 'semantic-ui-react'
 import { fetchFighters } from '../../actions';
+import { fetchEvents } from '../../actions/events';
 
 
 class TabsComp extends Component{
@@ -24,10 +25,11 @@ class TabsComp extends Component{
     }
     componentDidMount(){
         this.props.fetchFighters();
+        this.props.fetchEvents();
         this.state = {tabs:[
             { menuItem: 'Total', render: () => <Tab.Pane attached={false}><Total fighters={this.props.fighters}/></Tab.Pane> },
             { menuItem: 'Leaderboard', render: () => <Tab.Pane attached={false}><Leaderboard/></Tab.Pane> },
-            { menuItem: 'Bohurt', render: () => <Tab.Pane attached={false}><Bohurt fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Bohurt', render: () => <Tab.Pane attached={false}><Bohurt events={this.props.events} fighters={this.props.fighters}/></Tab.Pane> },
             { menuItem: 'Profight', render: () => <Tab.Pane attached={false}><Profight fighters={this.props.fighters}/></Tab.Pane> },
             { menuItem: 'Sword & Shield', render: () => <Tab.Pane attached={false}><SwordShield fighters={this.props.fighters}/></Tab.Pane> },
             { menuItem: 'Sword & Buckler', render: () => <Tab.Pane attached={false}><SwordBuckler fighters={this.props.fighters}/></Tab.Pane> },
@@ -38,6 +40,9 @@ class TabsComp extends Component{
     }
 
     render(){
+        if(!this.props.fighters){
+            return <div>Loading...</div>;
+        }
         return(
             <div>
                 <NavbarComp/>
@@ -50,7 +55,10 @@ class TabsComp extends Component{
 }
 
 function mapStateToProps(state) {
-    return { fighters: state.fighters};
+    return {
+        fighters: state.fighters,
+        events: state.events
+    };
 }
 
-export default connect(mapStateToProps,{fetchFighters})(TabsComp);
+export default connect(mapStateToProps,{fetchFighters,fetchEvents})(TabsComp);

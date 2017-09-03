@@ -53,41 +53,37 @@ class NavbarComp extends Component{
             align: 'right'
         };
 
-        if(this.props.currentUser) {
-            return (
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/ranking">Ranking</Link>
-                    </li>
-                    <DropdownMenu {...menuOptions}>
-                        <li><a href="#">Profile</a></li>
-                        <li><button type="button" onClick={this.click}>Personal Info</button></li>
-                    </DropdownMenu>
+        return (
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                    <Link className="nav-link" to="/ranking">Ranking</Link>
+                </li>
+                <DropdownMenu {...menuOptions}>
+                    <li><a href="#">Profile</a></li>
+                    <li><button type="button" onClick={this.click}>Personal Info</button></li>
+                </DropdownMenu>
 
-                    <li className="nav-item">
-                        <Button onClick={this.logout.bind(this)}>Logout</Button>
-                    </li>
-                </ul>
-            )
-        }
+                <li className="nav-item">
+                    <Button onClick={this.logout.bind(this)}>Logout</Button>
+                </li>
+            </ul>
+        )
     }
 
     renderLoggedOut(){
-        if(!this.props.currentUser) {
-            return (
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/ranking">Ranking</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Login/>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link " href="#">Sign Up</a>
-                    </li>
-                </ul>
-            )
-        }
+        return (
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                    <Link className="nav-link" to="/ranking">Ranking</Link>
+                </li>
+                <li className="nav-item">
+                    <Login/>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link " href="#">Sign Up</a>
+                </li>
+            </ul>
+        )
     }
 
     render(){
@@ -100,7 +96,7 @@ class NavbarComp extends Component{
                 <a className="navbar-brand" href="#">Navbar</a>
 
                 <div className={(!this.state.isOpen ? 'collapse' : '') + ' navbar-collapse'}>
-                    { this.props.currentUser ? this.renderLoggedIn() : this.renderLoggedOut()}
+                    { this.props.currentUser.isLoggedIn ? this.renderLoggedIn() : this.renderLoggedOut()}
                 </div>
             </nav>
         )

@@ -1,24 +1,22 @@
 import { CURRENT_USER} from '../actions';
 
 const initialState = {
+    isLoggedIn:false,
     admin:false,
     editor:false,
     user:{}
 };
 
 
-export default function (state = null, action) {
+export default function (state = initialState, action) {
     switch (action.type){
         case CURRENT_USER:
-            console.log(action.payload.data);
             if(!action.payload.data){
                 window.localStorage.removeItem('token');
-                action.payload.data = null;
-            }
-            if(action.payload.data.hasOwnProperty('user_role_id')){
+            }else if (action.payload.data.hasOwnProperty('user_role_id')){
                 if(action.payload.data.user_role_id === 3) {
-                    console.log('3');
                     return {
+                        isLoggedIn:true,
                         admin: true,
                         user: action.payload.data
                     }

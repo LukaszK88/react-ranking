@@ -78,8 +78,6 @@ function validate(values) {
         errors.password = "Password should not be empty";
     }
 
-
-
     return errors;
 }
 

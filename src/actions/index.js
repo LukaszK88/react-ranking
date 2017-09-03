@@ -4,7 +4,7 @@ export const FETCH_FIGHTERS = 'FETCH_FIGHTERS';
 export const FETCH_LEADERBOARD = 'FETCH_LEADERBOARD';
 export const CURRENT_USER = 'CURRENT_USER';
 
-const API = 'http://whitecompany.com/api/';
+export const API = 'http://whitecompany.com/api/';
 
 export function fetchFighters() {
     const request = axios.get(`${API}fighters`);
