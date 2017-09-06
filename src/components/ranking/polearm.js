@@ -3,11 +3,14 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Header, Image, Table } from 'semantic-ui-react'
 import { user } from '../../helpers/user';
-
+import UpdatePolearm from './updates/polearm';
+import _ from 'lodash';
 
 class Polearm extends Component{
     renderRows(){
-        return this.props.fighters.map((fighter) => {
+        const { admin } = this.props.currentUser;
+
+        return _.map(this.props.fighters,(fighter) => {
             return(
                 <Table.Row key={fighter.id}>
                     <Table.Cell>
@@ -28,12 +31,18 @@ class Polearm extends Component{
                     <Table.Cell width="1" >
                         {fighter.polearmTable.points}
                     </Table.Cell>
+                    { admin &&
+                    <Table.Cell width="1" >
+                        <UpdatePolearm events={this.props.events} fighter={fighter}/>
+                    </Table.Cell>
+                    }
                 </Table.Row>
             )
         });
     }
 
     render(){
+        const { admin } = this.props.currentUser;
         return(
             <div>
                 <Table celled inverted selectable unstackable>
@@ -44,6 +53,9 @@ class Polearm extends Component{
                             <Table.HeaderCell width="1">Win</Table.HeaderCell>
                             <Table.HeaderCell width="1">Lost</Table.HeaderCell>
                             <Table.HeaderCell width="1">Points</Table.HeaderCell>
+                            { admin &&
+                            <Table.HeaderCell width="1"></Table.HeaderCell>
+                            }
                         </Table.Row>
                     </Table.Header>
 
@@ -57,9 +69,8 @@ class Polearm extends Component{
 }
 
 function mapStateToProps(state) {
-    return { };
+    return { currentUser:state.currentUser };
 }
-
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({}, );
 }

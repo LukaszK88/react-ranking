@@ -16,7 +16,6 @@ class Total extends Component{
     renderRows(){
         const { admin } = this.props.currentUser;
         return _.map(this.props.fighters,(fighter) => {
-
             return(
                 <Table.Row key={fighter.id}>
                     <Table.Cell>

@@ -3,11 +3,15 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Header, Image, Table } from 'semantic-ui-react'
 import { user } from '../../helpers/user';
+import UpdateProfight from './updates/profight';
+import _ from 'lodash';
 
 
 class Profight extends Component{
     renderRows(){
-        return this.props.fighters.map((fighter) => {
+        const { admin } = this.props.currentUser;
+
+        return _.map(this.props.fighters,(fighter) => {
             return(
                 <Table.Row key={fighter.id}>
                     <Table.Cell>
@@ -40,12 +44,19 @@ class Profight extends Component{
                     <Table.Cell width="1" >
                         {fighter.profightTable.points}
                     </Table.Cell>
+                    { admin &&
+                    <Table.Cell width="1" >
+                        <UpdateProfight events={this.props.events} fighter={fighter}/>
+                    </Table.Cell>
+                    }
                 </Table.Row>
             )
         });
     }
 
     render(){
+        const { admin } = this.props.currentUser;
+
         return(
             <div>
                 <Table className="table-responsive-custom" celled inverted selectable unstackable>
@@ -59,6 +70,9 @@ class Profight extends Component{
                             <Table.HeaderCell width="1">FC II</Table.HeaderCell>
                             <Table.HeaderCell width="1">FC III</Table.HeaderCell>
                             <Table.HeaderCell width="1">Points</Table.HeaderCell>
+                            { admin &&
+                                <Table.HeaderCell width="1"></Table.HeaderCell>
+                            }
                         </Table.Row>
                     </Table.Header>
 
@@ -72,7 +86,7 @@ class Profight extends Component{
 }
 
 function mapStateToProps(state) {
-    return { };
+    return { currentUser:state.currentUser };
 }
 
 function mapDispatchToProps(dispatch) {

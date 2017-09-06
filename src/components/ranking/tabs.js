@@ -30,12 +30,12 @@ class TabsComp extends Component{
             { menuItem: 'Total', render: () => <Tab.Pane attached={false}><Total fighters={this.props.fighters}/></Tab.Pane> },
             { menuItem: 'Leaderboard', render: () => <Tab.Pane attached={false}><Leaderboard/></Tab.Pane> },
             { menuItem: 'Bohurt', render: () => <Tab.Pane attached={false}><Bohurt events={this.props.events} fighters={this.props.fighters}/></Tab.Pane> },
-            { menuItem: 'Profight', render: () => <Tab.Pane attached={false}><Profight fighters={this.props.fighters}/></Tab.Pane> },
-            { menuItem: 'Sword & Shield', render: () => <Tab.Pane attached={false}><SwordShield fighters={this.props.fighters}/></Tab.Pane> },
-            { menuItem: 'Sword & Buckler', render: () => <Tab.Pane attached={false}><SwordBuckler fighters={this.props.fighters}/></Tab.Pane> },
-            { menuItem: 'Longsword', render: () => <Tab.Pane attached={false}><Longsword fighters={this.props.fighters}/></Tab.Pane> },
-            { menuItem: 'Polearm', render: () => <Tab.Pane attached={false}><Polearm fighters={this.props.fighters}/></Tab.Pane> },
-            { menuItem: 'Triathlon', render: () => <Tab.Pane attached={false}><Triathlon fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Profight', render: () => <Tab.Pane attached={false}><Profight events={this.props.events} fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Sword & Shield', render: () => <Tab.Pane attached={false}><SwordShield events={this.props.events} fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Sword & Buckler', render: () => <Tab.Pane attached={false}><SwordBuckler events={this.props.events} fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Longsword', render: () => <Tab.Pane attached={false}><Longsword events={this.props.events} fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Polearm', render: () => <Tab.Pane attached={false}><Polearm events={this.props.events} fighters={this.props.fighters}/></Tab.Pane> },
+            { menuItem: 'Triathlon', render: () => <Tab.Pane attached={false}><Triathlon events={this.props.events} fighters={this.props.fighters}/></Tab.Pane> },
         ]}
     }
 
