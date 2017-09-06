@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { user } from '../../helpers/user';
 import { Header, Image, Table, Container } from 'semantic-ui-react'
-
+import _ from 'lodash';
 
 class Total extends Component{
 
     renderRows(){
-        return this.props.fighters.map((fighter) => {
+        return _.map(this.props.fighters,(fighter) => {
            return(
                <Table.Row key={fighter.id}>
                    <Table.Cell>

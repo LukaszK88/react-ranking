@@ -1,4 +1,4 @@
-import { FETCH_LEADERBOARD} from '../actions';
+import { FETCH_LEADERBOARD} from '../actions/types';
 
 
 export default function (state=null,action) {

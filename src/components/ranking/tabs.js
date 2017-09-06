@@ -13,7 +13,7 @@ import Polearm from    './polearm';
 import Triathlon from    './triathlon';
 import { Button } from 'semantic-ui-react'
 import { Tab } from 'semantic-ui-react'
-import { fetchFighters } from '../../actions';
+import { fetchFighters } from '../../actions/ranking';
 import { fetchEvents } from '../../actions/events';
 
 

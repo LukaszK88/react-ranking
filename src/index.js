@@ -22,7 +22,8 @@ import setAuthorizationToken from './utils/setAuthorizationToken';
 import {currentUser} from './actions';
 
 const createStoreWithMiddleware = createStore(reducers,
-    compose(applyMiddleware(thunk,promise)
+    compose(applyMiddleware(thunk,promise),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 );
 injectTapEventPlugin();

@@ -5,7 +5,8 @@ import { Button, Modal } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {withRouter} from 'react-router-dom';
 import InputRange from 'react-input-range';
-import { Select } from 'semantic-ui-react'
+import { Select } from 'semantic-ui-react';
+import { updateRanking} from '../../../actions/ranking';
 import _ from 'lodash';
 
 class UpdateBohurt extends Component{
@@ -17,31 +18,13 @@ class UpdateBohurt extends Component{
         };
     }
 
-
-
-    renderField(field){
-
-        const className = `form-group ${ field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
-
-        return(
-            <div className={className}>
-                <label>{ field.label }</label>
-                <input
-                    className="form-control"
-                    type="text"
-                    { ...field.input }
-                />
-                <div className="text-help">
-                    { field.meta.touched ? field.meta.error : '' }
-                </div>
-            </div>
-        );
-    }
-
     renderSelect(field){
         return(
             <div>
                 <Select { ...field.input } selection onChange={(param,data) => field.input.onChange(data.value)} value={field.input.value} options={field.countryOptions}/>
+                <div className="text-help">
+                    { field.meta.touched ? field.meta.error : '' }
+                </div>
             </div>
         )
     }
@@ -61,23 +44,24 @@ class UpdateBohurt extends Component{
 
     onSubmit(values){
         values.user_id = this.props.fighter.id;
-        console.log(values);
-        //this.props.history.push('/');
+        this.props.updateRanking(values,'bohurt');
+        this.setState({modalOpen:false});
     }
+
+    handleOpen = () => this.setState({ modalOpen: true });
+
+    handleClose = () => this.setState({ modalOpen: false });
 
     render(){
         const handleSubmit = this.props.handleSubmit;
+
         const countryOptions = _.map(this.props.events,event => {
-            return {key:event.location};
+            return {key:event.location, value:event.id, flag:event.location, text: `${event.title} ${event.date.substring(0,4)}`};
         });
 
-        //     [{ key: 'af', value: 'af', flag: 'af', text: 'Afghanistan'},
-        //     { key: 'ag', value: 'ag', flag: 'ag', text: 'Argentina'}
-        // ];
 
-        console.log(countryOptions);
         return(
-            <Modal size={'tiny'} trigger={<i className="fa fa-pencil-square-o"></i>}>
+                <Modal size={'tiny'}  open={this.state.modalOpen}  onClose={this.handleClose}  trigger={<i onClick={this.handleOpen} className="fa fa-pencil-square-o"></i>}>
                 <Modal.Header>Update {this.props.fighter.name}</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
@@ -134,19 +118,19 @@ class UpdateBohurt extends Component{
                     </Modal.Description>
                 </Modal.Content>
             </Modal>
-        )
 
+        )
     }
 }
 
 function validate(values) {
     const errors = {};
 
+    if(!values.event_id){
+        errors.event_id = "You must select an event";
+    }
+
     return errors;
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({}, );
-}
-
-export default withRouter(reduxForm({validate:validate, form: 'updateBohurt'})(connect(null,mapDispatchToProps())(UpdateBohurt)));
+export default withRouter(reduxForm({validate:validate, form: 'updateBohurt'})(connect(null,{updateRanking})(UpdateBohurt)));
