@@ -1,9 +1,10 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
-import { user } from '../../helpers/user';
+import { userHelper } from '../../helpers/user';
 import { Header, Image, Table, Container } from 'semantic-ui-react'
 import _ from 'lodash';
+import {Link} from 'react-router-dom';
 
 class Total extends Component{
 
@@ -13,9 +14,9 @@ class Total extends Component{
                <Table.Row key={fighter.id}>
                    <Table.Cell>
                        <Header as='h4' image>
-                           <Image src={user.getImage(fighter)} shape='rounded' size='mini' />
+                           <Image src={userHelper.getImage(fighter)} shape='rounded' size='mini' />
                            <Header.Content>
-                               {fighter.name}
+                               <Link to={`/profile/${fighter.id}`}>  {fighter.name} </Link>
                                <Header.Subheader>White Company</Header.Subheader>
                            </Header.Content>
                        </Header>

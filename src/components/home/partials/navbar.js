@@ -93,7 +93,7 @@ class NavbarComp extends Component{
                 <button onClick={this.toggle} className="navbar-toggler navbar-toggler-right" type="button" >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <a className="navbar-brand" href="#">Navbar</a>
+                <Link className="navbar-brand" to="/">Navbar</Link>
 
                 <div className={(!this.state.isOpen ? 'collapse' : '') + ' navbar-collapse'}>
                     { this.props.currentUser.isLoggedIn ? this.renderLoggedIn() : this.renderLoggedOut()}

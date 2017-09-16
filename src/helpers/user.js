@@ -1,4 +1,4 @@
-export const user ={
+export const userHelper ={
     getImage: (user) => {
         if(user.image){
             return user.image;

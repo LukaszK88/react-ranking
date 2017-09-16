@@ -1,4 +1,4 @@
-import { FETCH_FIGHTERS, UPDATE_RANKING} from '../actions/types';
+import { FETCH_FIGHTERS} from '../actions/types';
 import _ from 'lodash';
 
 export default function (state=null,action) {

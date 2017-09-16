@@ -20,6 +20,9 @@ import TabsComp from './components/ranking/tabs';
 import thunk from 'redux-thunk';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import {currentUser} from './actions';
+import Profile from './components/ranking/profile/profile';
+import 'react-images-uploader/styles.css';
+import 'react-images-uploader/font.css';
 
 const createStoreWithMiddleware = createStore(reducers,
     compose(applyMiddleware(thunk,promise),
@@ -47,6 +50,7 @@ ReactDOM.render(
     <Provider store={createStoreWithMiddleware}>
         <BrowserRouter history={history}>
             <Switch>
+                <Route path="/profile/:userId" component={Profile}/>
                 <Route path="/ranking" component={TabsComp}/>
                 <Route path="/" component={Home}/>
             </Switch>

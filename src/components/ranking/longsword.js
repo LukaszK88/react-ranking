@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Header, Image, Table } from 'semantic-ui-react'
-import { user } from '../../helpers/user';
+import { userHelper } from '../../helpers/user';
 import UpdateLongsword from './updates/longsword';
 import _ from 'lodash';
 
@@ -15,7 +15,7 @@ class Longsword extends Component{
                 <Table.Row key={fighter.id}>
                     <Table.Cell>
                         <Header as='h4' image>
-                            <Image src={user.getImage(fighter)} shape='rounded' size='mini' />
+                            <Image src={userHelper.getImage(fighter)} shape='rounded' size='mini' />
                             <Header.Content>
                                 {fighter.name}
                                 <Header.Subheader>White Company</Header.Subheader>

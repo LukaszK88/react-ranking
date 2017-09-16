@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
-import { user } from '../../helpers/user';
+import { userHelper } from '../../helpers/user';
 import { Header, Image, Container, Table } from 'semantic-ui-react'
 import UpdateBohurt from './updates/bohurt';
 import _ from 'lodash';
@@ -20,7 +20,7 @@ class Total extends Component{
                 <Table.Row key={fighter.id}>
                     <Table.Cell>
                         <Header as='h4' image>
-                            <Image src={user.getImage(fighter)} shape='rounded' size='mini' />
+                            <Image src={userHelper.getImage(fighter)} shape='rounded' size='mini' />
                             <Header.Content>
                                 {fighter.name}
                                 <Header.Subheader>White Company</Header.Subheader>
@@ -37,7 +37,7 @@ class Total extends Component{
                         {fighter.bohurtTable.lastMan}
                     </Table.Cell>
                     <Table.Cell width="1" >
-                        { user.ratioBohurt(fighter) }%
+                        { userHelper.ratioBohurt(fighter) }%
                     </Table.Cell>
                     <Table.Cell width="1" >
                         {fighter.bohurtTable.suicide}

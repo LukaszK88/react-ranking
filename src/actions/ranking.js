@@ -1,6 +1,15 @@
 import axios from 'axios';
 import {API} from './index';
-import {UPDATE_RANKING, FETCH_FIGHTERS, FETCH_LEADERBOARD} from './types';
+import {FETCH_ACHIEVEMENTS, FETCH_FIGHTERS, FETCH_LEADERBOARD, ADD_ACHIEVEMENT} from './types';
+
+export function addAchievement(achievement) {
+    return axios.post(`${API}achievement`,achievement).then(() => {
+        return (dispatch) => {
+            dispatch(fetchAchievements(achievement.user_id));
+        }
+    });
+
+}
 
 export function updateRanking(data,type) {
     return axios.post(`${API}fighters/${type}`,data).then(() => {
@@ -8,6 +17,15 @@ export function updateRanking(data,type) {
             dispatch(fetchFighters());
         }
     });
+}
+
+export function fetchAchievements(userId) {
+    const request = axios.get(`${API}achievement/${userId}`);
+
+    return {
+        type:FETCH_ACHIEVEMENTS,
+        payload:request
+    }
 }
 
 export function fetchFighters() {
