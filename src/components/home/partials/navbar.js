@@ -2,11 +2,12 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
-import Login from '../../auth/login';
+import Login from '../../auth/login'
+import Signup from '../../auth/singup';
 import {logout} from '../../../actions';
 import { Button, Header, Image, Modal } from 'semantic-ui-react';
 import DropdownMenu from 'react-dd-menu';
-
+import UpdateUser from './userInfo';
 
 
 class NavbarComp extends Component{
@@ -18,7 +19,6 @@ class NavbarComp extends Component{
             isOpen: false,
             isMenuOpen: false
         };
-        this.click = this.click.bind(this);
         this.toggleDropdown = this.toggleDropdown.bind(this);
         this.close = this.close.bind(this);
     }
@@ -36,12 +36,7 @@ class NavbarComp extends Component{
         this.setState({ isMenuOpen: false });
     }
 
-    click() {
-        console.log('You clicked an item');
-    }
-
     logout() {
-        console.log('logout');
         this.props.logout();
     }
 
@@ -50,7 +45,9 @@ class NavbarComp extends Component{
             isOpen: this.state.isMenuOpen,
             close: this.close,
             toggle: <Button type="button" onClick={this.toggleDropdown}>{this.props.currentUser.user.username} <i className="fa fa-chevron-down"></i></Button>,
-            align: 'right'
+            align: 'right',
+            closeOnInsideClick:false,
+            closeOnOutsideClick:false
         };
 
         return (
@@ -59,8 +56,8 @@ class NavbarComp extends Component{
                     <Link className="nav-link" to="/ranking">Ranking</Link>
                 </li>
                 <DropdownMenu {...menuOptions}>
-                    <li><a href="#">Profile</a></li>
-                    <li><button type="button" onClick={this.click}>Personal Info</button></li>
+                    <li><Link to={`/profile/${this.props.currentUser.user.id}`}>Profile</Link></li>
+                    <li><UpdateUser/></li>
                 </DropdownMenu>
 
                 <li className="nav-item">
@@ -80,7 +77,7 @@ class NavbarComp extends Component{
                     <Login/>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link " href="#">Sign Up</a>
+                    <Signup/>
                 </li>
             </ul>
         )

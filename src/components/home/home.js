@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
 import  NavbarComp from './partials/navbar';
+import FlashMessages from '../../components/helpers/message';
 
 
 class Home extends Component{
@@ -15,7 +16,8 @@ class Home extends Component{
 
         return (
             <div>
-              <NavbarComp/>
+                <FlashMessages/>
+                <NavbarComp/>
             </div>
         )
     }

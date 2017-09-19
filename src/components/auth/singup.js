@@ -2,15 +2,12 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import { Button, Header, Image, Modal } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { loginUser, loginWithFacebook } from '../../actions';
+import { registerUser } from '../../actions';
 import {withRouter} from 'react-router-dom';
-import FacebookLogin from 'react-facebook-login';
 import {addFlashMessage} from '../../actions/flashMessages';
 
 
-
-class Login extends Component{
-
+class Signup extends Component{
     renderField(field){
 
         const className = `form-group ${ field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
@@ -31,11 +28,7 @@ class Login extends Component{
     }
 
     onSubmit(values){
-        // this.props.addFlashMessage({
-        //     type:'success',
-        //     text:'hi from comp'
-        // });
-       this.props.loginUser(values);
+       this.props.registerUser(values);
        this.props.history.push('/');
     }
 
@@ -43,14 +36,14 @@ class Login extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'tiny'} trigger={<Button>Login</Button>}>
-                <Modal.Header>Login</Modal.Header>
+            <Modal size={'tiny'} trigger={<Button>Register</Button>}>
+                <Modal.Header>Register</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                             <Field
-                                label="Username"
-                                name="username"
+                                label="Email"
+                                name="email"
                                 component={this.renderField}
                             />
                             <Field
@@ -59,11 +52,6 @@ class Login extends Component{
                                 component={this.renderField}
                             />
                             <Button type="submit">Submit</Button>
-                            <FacebookLogin
-                                appId="1884018281856728"
-                                fields="name,email,picture"
-                                callback={this.props.loginWithFacebook}
-                            />
                         </form>
 
                     </Modal.Description>
@@ -99,4 +87,4 @@ function mapStateToProps(state) {
     return { };
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'addPostForm'})(connect(mapStateToProps,{loginUser,loginWithFacebook,addFlashMessage})(Login)));
+export default withRouter(reduxForm({validate:validate, form: 'signupForm'})(connect(mapStateToProps,{registerUser,addFlashMessage})(Signup)));

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {API} from './index';
-import {FETCH_ACHIEVEMENTS, FETCH_FIGHTERS, FETCH_LEADERBOARD, ADD_ACHIEVEMENT} from './types';
+import {FETCH_ACHIEVEMENTS, FETCH_FIGHTERS, FETCH_LEADERBOARD, ADD_ACHIEVEMENT, DELETE_ACHIEVEMENT} from './types';
 
 export function addAchievement(achievement) {
     return axios.post(`${API}achievement`,achievement).then(() => {
@@ -9,6 +9,24 @@ export function addAchievement(achievement) {
         }
     });
 
+}
+
+export function updateAchievement(data, achievementId) {
+    return axios.put(`${API}achievement/${achievementId}`,data).then(() => {
+        return (dispatch) => {
+            dispatch(fetchAchievements(data.user_id));
+        }
+    });
+
+}
+
+export function deleteAchievement(achievement) {
+     axios.delete(`${API}achievement/${achievement.id}`);
+
+    return {
+        type:DELETE_ACHIEVEMENT,
+        payload:achievement
+    }
 }
 
 export function updateRanking(data,type) {

@@ -1,13 +1,16 @@
-import { FETCH_USER,FETCH_ACHIEVEMENTS,ADD_ACHIEVEMENT } from '../actions/types';
+import { FETCH_USER,FETCH_ACHIEVEMENTS, DELETE_ACHIEVEMENT } from '../actions/types';
 import _ from 'lodash';
 
 
 
 export default function (state=null,action) {
     switch (action.type){
-        // case ADD_ACHIEVEMENT:
-        //     console.log(action.payload.data);
-        //     return {...state};
+        case DELETE_ACHIEVEMENT:
+            const newState = {...state};
+            return {...state,['achievements']:{
+                        ...state['achievements'],['data']:{
+                            ...state['achievements']['data'],['data']: newState.achievements.data.data.filter(achievement => achievement.id !== action.payload.id)
+                    }}};
         case FETCH_ACHIEVEMENTS:
             // return {...state,['achievements']:{
             //             ...state,['data']:{

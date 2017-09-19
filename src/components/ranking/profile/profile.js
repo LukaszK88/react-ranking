@@ -8,11 +8,12 @@ import { userHelper } from '../../../helpers/user';
 import { uploadProfileImage } from '../../../actions';
 import Dropzone from 'react-dropzone'
 import { Tooltip } from 'reactstrap';
-import { fetchAchievements } from '../../../actions/ranking';
+import { fetchAchievements, deleteAchievement } from '../../../actions/ranking';
 import _ from 'lodash';
 import { stringHelper } from '../../../helpers/string';
 import AddAchievement from './addAchievement';
-
+import UpdateAchievement from './updateAchievement';
+import { baseUrl } from '../../../index';
 
 
 
@@ -49,8 +50,8 @@ class Profile extends Component{
 
     }
 
-    deleteAchievement(achievement,e){
-        console.log(achievement);
+    deleteAch(achievement,e){
+        this.props.deleteAchievement(achievement);
     }
 
     renderAchievements(){
@@ -61,12 +62,13 @@ class Profile extends Component{
                     <List.Item>
                         <List.Icon dangerouslySetInnerHTML={{__html: achievement.cup}}/>
                         <List.Content>
-                            <List.Header as='a'>{achievement.event.title}</List.Header>
+                            <List.Header as='a'><Flag name={achievement.event.location}/>{achievement.event.title}</List.Header>
                             <List.Description>
                                 {achievement.category} | {achievement.place} | {stringHelper.limitTo(achievement.event.date,10)}
                             </List.Description>
                         </List.Content>
-                        <List.Icon onClick={this.deleteAchievement.bind(this,achievement)} name="delete"/>
+                        <List.Icon onClick={this.deleteAch.bind(this,achievement)} size="large" name="delete"/>
+                        <UpdateAchievement achievement={achievement}/>
                     </List.Item>
                 )
             });
@@ -96,9 +98,9 @@ class Profile extends Component{
                                     { profile.user.name }
                                 </Card.Header>
                                 <Card.Meta>
-                                        <span className='date'>
-                                          Joined in 2015
-                                        </span>
+                                    <span className='date'>
+                                      Joined in { stringHelper.limitTo(profile.user.created_at,10)}
+                                    </span>
                                 </Card.Meta>
                                 <Card.Description>
 
@@ -148,6 +150,8 @@ class Profile extends Component{
                                         <List.Item icon='certificate' content={'Weight: ' + profile.user.weight}/>
                                         <List.Item icon='certificate' content={'Quote :' }/>
                                         <List.Item content={'"' + profile.user.quote + '"'}/>
+                                        <List.Item icon='certificate' content={'Club :' }/>
+                                        <List.Item content={<Image size="tiny" src={`${baseUrl}img/kaka.png`}/>}/>
                                     </List>
                                 </div>
                                 <div className="col-md-6">
@@ -211,6 +215,34 @@ class Profile extends Component{
                                     <Card.Header>
                                         Achievements
                                         <AddAchievement/>
+
+                                        <Card.Meta>
+                                            <div className="row">
+                                                <div className="col-xs-3">
+                                                    <Icon color="yellow" size="large" name="trophy"/>
+                                                </div>
+                                                <div className="col-xs-3">
+                                                    <Icon color="grey" size="large" name="trophy"/>
+                                                </div>
+                                                <div className="col-xs-3">
+                                                    <Icon color="brown" size="large" name="trophy"/>
+                                                </div>
+                                            </div>
+                                            { this.props.profile.achievements ?
+                                                <div  className="row">
+                                                <div className="col-xs-2">
+                                                <span style={{ 'margin-left':'5px'}} className="badge badge-pill badge-warning">{this.props.profile.achievements.data.achievement.gold}</span>
+                                                </div>
+                                                <div className="col-xs-2">
+                                                <span style={{ 'margin-left':'5px'}} className="badge badge-pill badge-warning">{this.props.profile.achievements.data.achievement.silver}</span>
+                                                </div>
+                                                <div className="col-xs-2">
+                                                <span style={{ 'margin-left':'5px'}} className="badge badge-pill badge-warning">{this.props.profile.achievements.data.achievement.bronze}</span>
+                                                </div>
+                                                </div> : ''
+                                            }
+                                        </Card.Meta>
+
                                     </Card.Header>
                                 </Card.Content>
                                 <Card.Content>
@@ -234,4 +266,4 @@ function mapStateToProps(state) {
 
 
 
-export default connect(mapStateToProps,{fetchUser,uploadProfileImage,fetchAchievements})(Profile);
+export default connect(mapStateToProps,{fetchUser,uploadProfileImage,fetchAchievements,deleteAchievement})(Profile);

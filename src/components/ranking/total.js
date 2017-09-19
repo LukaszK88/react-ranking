@@ -17,7 +17,7 @@ class Total extends Component{
                            <Image src={userHelper.getImage(fighter)} shape='rounded' size='mini' />
                            <Header.Content>
                                <Link to={`/profile/${fighter.id}`}>  {fighter.name} </Link>
-                               <Header.Subheader>White Company</Header.Subheader>
+                               <Header.Subheader>{fighter.club}</Header.Subheader>
                            </Header.Content>
                        </Header>
                    </Table.Cell>

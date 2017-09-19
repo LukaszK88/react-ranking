@@ -24,6 +24,7 @@ import Profile from './components/ranking/profile/profile';
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 
+export const baseUrl = 'http://localhost:3000/';
 const createStoreWithMiddleware = createStore(reducers,
     compose(applyMiddleware(thunk,promise),
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -35,8 +36,8 @@ const history = createHistory();
 
 const muiTheme = getMuiTheme({
     palette: {
-        textColor: '#ffffff',
-        primary1Color: '#212121'
+        textColor: '#000000',
+        primary1Color: '#a2a2a2'
     }
 });
 if(window.localStorage.getItem('token')) {

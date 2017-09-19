@@ -1,15 +1,13 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux';
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import { Button, Header,List, Image, Modal } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { Select } from 'semantic-ui-react';
-import { fetchEvents } from '../../../actions/events'
-import {addAchievement} from '../../../actions/ranking';
+import {updateAchievement} from '../../../actions/ranking';
 import _ from 'lodash';
 
 
-class AddAchievement extends Component{
+class UpdateAchievement extends Component{
     constructor(props) {
         super(props);
 
@@ -17,10 +15,6 @@ class AddAchievement extends Component{
             modalOpen: false
         };
     }
-    componentDidMount(){
-        this.props.fetchEvents();
-    }
-
     renderSelect(field){
         return(
             <div>
@@ -34,7 +28,7 @@ class AddAchievement extends Component{
 
     onSubmit(values){
         values.user_id = this.props.currentUser.user.id;
-        this.props.addAchievement(values);
+        this.props.updateAchievement(values,this.props.achievement.id);
         this.setState({modalOpen:false});
     }
 
@@ -43,6 +37,7 @@ class AddAchievement extends Component{
     handleClose = () => this.setState({ modalOpen: false });
 
     render(){
+
         const handleSubmit = this.props.handleSubmit;
 
         const categories = [
@@ -65,23 +60,15 @@ class AddAchievement extends Component{
             { key:'3rd', value:'3rd',text:'3rd'}
         ];
 
-        const countryOptions = _.map(this.props.events,event => {
-            return {key:event.location, value:event.id, flag:event.location, text: `${event.title} ${event.date.substring(0,4)}`};
-        });
         return(
-            <Modal size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} className="float-right">Add</Button>}>
-                <Modal.Header>Add Achievement</Modal.Header>
+
+
+            <Modal size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<List.Icon onClick={this.handleOpen} size="large" name="edit"/>}>
+                <Modal.Header>Update Achievement</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
 
-                            <Field
-                                name="event_id"
-                                placeholder="Select competition"
-                                options={countryOptions}
-                                component={this.renderSelect}
-                            />
-                            <br/>
                             <Field
                                 name="category"
                                 placeholder="Category"
@@ -114,10 +101,23 @@ function validate(values) {
 }
 
 
-function mapStateToProps(state) {
-    return { events:state.events,
-        currentUser: state.currentUser};
+function mapStateToProps(state, ownProps) {
+    return {currentUser: state.currentUser,
+        initialValues: {
+            category:ownProps.achievement.category,
+            place:ownProps.achievement.place
+        }
+    };
 }
 
+let InitializeFromStateForm = reduxForm({
+    form: 'updateAchievement',
+    enableReinitialize : true
+})(UpdateAchievement);
 
-export default reduxForm({validate:validate, form: 'addAchievement'})(connect(mapStateToProps,{fetchEvents,addAchievement})(AddAchievement));
+InitializeFromStateForm = connect(
+    mapStateToProps,
+    { updateAchievement}
+)(InitializeFromStateForm);
+
+export default InitializeFromStateForm;
