@@ -8,6 +8,8 @@ import {logout} from '../../../actions';
 import { Button, Header, Image, Modal } from 'semantic-ui-react';
 import DropdownMenu from 'react-dd-menu';
 import UpdateUser from './userInfo';
+import ChangePassword from '../../auth/changePassword';
+
 
 
 class NavbarComp extends Component{
@@ -41,30 +43,34 @@ class NavbarComp extends Component{
     }
 
     renderLoggedIn(){
-        const menuOptions = {
-            isOpen: this.state.isMenuOpen,
-            close: this.close,
-            toggle: <Button type="button" onClick={this.toggleDropdown}>{this.props.currentUser.user.username} <i className="fa fa-chevron-down"></i></Button>,
-            align: 'right',
-            closeOnInsideClick:false,
-            closeOnOutsideClick:false
-        };
+        if(this.props.currentUser.user) {
+            const menuOptions = {
+                isOpen: this.state.isMenuOpen,
+                close: this.close,
+                toggle: <Button type="button" onClick={this.toggleDropdown}>{this.props.currentUser.user.username} <i
+                    className="fa fa-chevron-down"></i></Button>,
+                align: 'right',
+                closeOnInsideClick: false,
+                closeOnOutsideClick: false
+            };
+            return (
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/ranking">Ranking</Link>
+                    </li>
+                    <DropdownMenu {...menuOptions}>
+                        <li><Link to={`/profile/${this.props.currentUser.user.id}`}>Profile</Link></li>
+                        <li><UpdateUser/></li>
+                        <li><ChangePassword/></li>
+                    </DropdownMenu>
 
-        return (
-            <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                    <Link className="nav-link" to="/ranking">Ranking</Link>
-                </li>
-                <DropdownMenu {...menuOptions}>
-                    <li><Link to={`/profile/${this.props.currentUser.user.id}`}>Profile</Link></li>
-                    <li><UpdateUser/></li>
-                </DropdownMenu>
+                    <li className="nav-item">
+                        <Button onClick={this.logout.bind(this)}>Logout</Button>
+                    </li>
+                </ul>
+            )
+        }
 
-                <li className="nav-item">
-                    <Button onClick={this.logout.bind(this)}>Logout</Button>
-                </li>
-            </ul>
-        )
     }
 
     renderLoggedOut(){

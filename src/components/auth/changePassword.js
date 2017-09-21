@@ -1,14 +1,14 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import { Button,Modal } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { registerUser } from '../../actions';
 import {withRouter} from 'react-router-dom';
 import {addFlashMessage} from '../../actions/flashMessages';
 import { input } from '../../helpers/input';
+import { updatePassword } from '../../actions';
 
 
-class Signup extends Component{
+class ChangePassword extends Component{
     constructor(){
         super();
 
@@ -18,7 +18,7 @@ class Signup extends Component{
     }
 
     onSubmit(values){
-        this.props.registerUser(values);
+        this.props.updatePassword(values);
         this.setState({modalOpen:false});
     }
 
@@ -31,20 +31,26 @@ class Signup extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} >Register</Button>}>
-                <Modal.Header>Register</Modal.Header>
+            <Modal size={'mini'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} >Change password</Button>}>
+                <Modal.Header>Change Password</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                             <Field
-                                label="Email"
-                                name="email"
-                                type="text"
+                                label="Current Password"
+                                name="currentPassword"
+                                type="password"
                                 component={input.renderField}
                             />
                             <Field
-                                label="Password"
-                                name="password"
+                                label="New Password"
+                                name="newPassword"
+                                type="password"
+                                component={input.renderField}
+                            />
+                            <Field
+                                label="Confirm New Password"
+                                name="newPasswordAgain"
                                 type="password"
                                 component={input.renderField}
                             />
@@ -62,19 +68,14 @@ class Signup extends Component{
 function validate(values) {
     const errors = {};
 
-    let regExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if(!values.email){
-        errors.email = "Username cannot be empty";
+    if(!values.newPassword){
+        errors.newPassword = "New Password cannot be empty";
     }
-    if(values.email && values.email.length < 4){
-        errors.email = "Username should be min 4 chars";
+    if(values.newPassword !== values.newPasswordAgain){
+        errors.newPasswordAgain = "Passwords must match";
     }
-    if(values.email && !regExp.test(values.email)){
-        errors.email = "Username should be a valid email";
-    }
-    if(!values.password){
-        errors.password = "Password should not be empty";
+    if(!values.currentPassword){
+        errors.currentPassword = "Current Password should not be empty";
     }
 
     return errors;
@@ -84,4 +85,4 @@ function mapStateToProps(state) {
     return { };
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'signupForm'})(connect(mapStateToProps,{registerUser,addFlashMessage})(Signup)));
+export default withRouter(reduxForm({validate:validate, form: 'changePasswordForm'})(connect(mapStateToProps,{addFlashMessage,updatePassword})(ChangePassword)));

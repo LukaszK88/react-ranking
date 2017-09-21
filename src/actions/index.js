@@ -17,6 +17,31 @@ export function logout() {
     }
 }
 
+export function updatePassword(data) {
+    return axios.put(`${API}user-updatePassword`,data).then((response) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('success', response.data.message));
+        }
+    }).catch((error) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('error', error.response.data.error));
+        }
+    });
+}
+
+export function recoverPassword(data) {
+    return axios.post(`${API}user-recover`,data).then((response) => {
+        console.log(response);
+        return (dispatch) => {
+            dispatch(addFlashMessage('success', response.data.message));
+        }
+    }).catch((error) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('error', error.response.data.error));
+        }
+    });
+}
+
 export function updateUser(data) {
     return axios.put(`${API}user-update`,data).then((response) => {
         return (dispatch) => {

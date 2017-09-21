@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Container, Row, Col } from 'reactstrap';
+import { Container} from 'reactstrap';
 import  NavbarComp from '../home/partials/navbar';
 import Total from './total';
 import Leaderboard from './leaderboard';
@@ -11,7 +11,6 @@ import SwordBuckler from    './swordBuckler';
 import Longsword from    './longsword';
 import Polearm from    './polearm';
 import Triathlon from    './triathlon';
-import { Button } from 'semantic-ui-react'
 import { Tab } from 'semantic-ui-react'
 import { fetchFighters } from '../../actions/ranking';
 import { fetchEvents } from '../../actions/events';

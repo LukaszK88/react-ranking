@@ -6,6 +6,9 @@ import { loginUser, loginWithFacebook } from '../../actions';
 import {withRouter} from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
 import { input } from '../../helpers/input';
+import ForgotPassword from './forgotPassword';
+
+
 class Login extends Component{
 
     onSubmit(values){
@@ -44,6 +47,7 @@ class Login extends Component{
                                 textButton=" FB Login"
                                 callback={this.props.loginWithFacebook}
                             />
+                            <ForgotPassword/>
                         </form>
 
                     </Modal.Description>
