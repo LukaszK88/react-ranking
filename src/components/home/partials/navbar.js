@@ -70,6 +70,7 @@ class NavbarComp extends Component{
     renderLoggedOut(){
         return (
             <ul className="navbar-nav mr-auto">
+
                 <li className="nav-item">
                     <Link className="nav-link" to="/ranking">Ranking</Link>
                 </li>

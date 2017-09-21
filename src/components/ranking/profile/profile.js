@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux';
 import  NavbarComp from '../../home/partials/navbar';
-import { Card, Icon, Image, List, Button, Flag } from 'semantic-ui-react'
+import { Card, Icon, Image, List, Flag } from 'semantic-ui-react'
 import { fetchUser } from '../../../actions';
 import { userHelper } from '../../../helpers/user';
 import { uploadProfileImage } from '../../../actions';
@@ -14,8 +13,7 @@ import { stringHelper } from '../../../helpers/string';
 import AddAchievement from './addAchievement';
 import UpdateAchievement from './updateAchievement';
 import { baseUrl } from '../../../index';
-
-
+import FlashMessages from '../../helpers/message';
 
 
 class Profile extends Component{
@@ -35,15 +33,23 @@ class Profile extends Component{
         });
     }
 
+    componentWillReceiveProps(newProps){
+        if(this.props.match.params.userId !== newProps.match.params.userId) {
+            this.props.fetchUser(newProps.match.params.userId);
+            this.props.fetchAchievements(newProps.match.params.userId);
+        }
+    }
+
     componentDidMount(){
         this.props.fetchUser(this.props.match.params.userId);
         this.props.fetchAchievements(this.props.match.params.userId);
     }
 
     onDrop(acceptedFiles, rejectedFiles) {
-        acceptedFiles.forEach(file => {
-            this.props.uploadProfileImage(this.props.match.params.userId,file);
-        });
+        //acceptedFiles.forEach(file => {
+            //console.log(file);
+            this.props.uploadProfileImage(this.props.match.params.userId,acceptedFiles);
+       // });
         this.setState({
             imgPreview: acceptedFiles[0].preview
         });
@@ -52,6 +58,16 @@ class Profile extends Component{
 
     deleteAch(achievement,e){
         this.props.deleteAchievement(achievement);
+    }
+
+    isCurrentlyLoggedInUser(){
+        if(this.props.currentUser.user && this.props.profile.user) {
+            if(this.props.currentUser.user.id == this.props.profile.user.id){
+                return true
+            }
+        }
+
+        return false
     }
 
     renderAchievements(){
@@ -67,12 +83,44 @@ class Profile extends Component{
                                 {achievement.category} | {achievement.place} | {stringHelper.limitTo(achievement.event.date,10)}
                             </List.Description>
                         </List.Content>
-                        <List.Icon onClick={this.deleteAch.bind(this,achievement)} size="large" name="delete"/>
+                        { this.isCurrentlyLoggedInUser() &&
+                        <List.Icon onClick={this.deleteAch.bind(this, achievement)} size="large" name="delete"/>
+                        }
+                        { this.isCurrentlyLoggedInUser() &&
                         <UpdateAchievement achievement={achievement}/>
+                        }
                     </List.Item>
                 )
             });
         }
+    }
+
+    renderDropzone(){
+        const {profile} = this.props;
+        if(this.props.currentUser.user){
+            if(this.props.currentUser.user.id == profile.user.id) {
+                return ( <Dropzone id="upload" name="file" style={{width: 'max-width'}} onDrop={this.onDrop.bind(this)}>
+                        <Tooltip placement="right" isOpen={this.state.tooltipOpen} target="upload"
+                                 toggle={this.toggle.bind(this)}>
+                            Click or drop image to upload
+                        </Tooltip>
+                        { this.state.imgPreview ? <Image src={this.state.imgPreview}/>
+                            :
+                            <Image src={userHelper.getImage(profile.user)}/> }
+                    </Dropzone>
+                )
+            }
+        }
+
+            if(profile.user) {
+
+                return (
+                    <div>
+                        <Image src={userHelper.getImage(profile.user)}/>
+                    </div>
+                )
+            }
+
     }
 
     renderUserImage(){
@@ -81,25 +129,14 @@ class Profile extends Component{
             return (
                     <div className="col-md-3">
                         <Card>
-                            { profile.user.id == this.props.currentUser.user.id ?
-                                <Dropzone id="upload" style={{width: 'max-width'}} onDrop={this.onDrop.bind(this)}>
-                                    <Tooltip placement="right" isOpen={this.state.tooltipOpen} target="upload"
-                                             toggle={this.toggle.bind(this)}>
-                                        Click or drop image to upload
-                                    </Tooltip>
-                                    { this.state.imgPreview ? <Image src={this.state.imgPreview}/>
-                                        :
-                                        <Image src={userHelper.getImage(profile.user)}/> }
-                                </Dropzone> :
-                                <Image src={userHelper.getImage(profile.user)}/>
-                            }
+                            {this.renderDropzone()}
                             <Card.Content>
                                 <Card.Header>
                                     { profile.user.name }
                                 </Card.Header>
                                 <Card.Meta>
                                     <span className='date'>
-                                      Joined in { stringHelper.limitTo(profile.user.created_at,10)}
+                                      Joined on { stringHelper.limitTo(profile.user.created_at,10)}
                                     </span>
                                 </Card.Meta>
                                 <Card.Description>
@@ -204,6 +241,7 @@ class Profile extends Component{
 
         return(
             <div>
+                <FlashMessages/>
                 <NavbarComp/>
                 <div className="container">
                     <div className="row">
@@ -214,8 +252,9 @@ class Profile extends Component{
                                 <Card.Content>
                                     <Card.Header>
                                         Achievements
-                                        <AddAchievement/>
-
+                                        {this.isCurrentlyLoggedInUser() &&
+                                            <AddAchievement/>
+                                        }
                                         <Card.Meta>
                                             <div className="row">
                                                 <div className="col-xs-3">

@@ -5,38 +5,33 @@ import { Field, reduxForm } from 'redux-form';
 import { registerUser } from '../../actions';
 import {withRouter} from 'react-router-dom';
 import {addFlashMessage} from '../../actions/flashMessages';
+import { input } from '../../helpers/input';
 
 
 class Signup extends Component{
-    renderField(field){
+    constructor(){
+        super();
 
-        const className = `form-group ${ field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
-
-        return(
-            <div className={className}>
-                <label>{ field.label }</label>
-                <input
-                    className="form-control"
-                    type="text"
-                    { ...field.input }
-                />
-                <div className="text-help">
-                    { field.meta.touched ? field.meta.error : '' }
-                </div>
-            </div>
-        );
+        this.state = ({
+            modalOpen:false
+        });
     }
 
     onSubmit(values){
-       this.props.registerUser(values);
-       this.props.history.push('/');
+        this.props.registerUser(values);
+        this.setState({modalOpen:false});
     }
+
+    handleOpen = () => this.setState({ modalOpen: true });
+
+    handleClose = () => this.setState({ modalOpen: false });
+
 
     render(){
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'tiny'} trigger={<Button>Register</Button>}>
+            <Modal size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} >Register</Button>}>
                 <Modal.Header>Register</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
@@ -44,12 +39,14 @@ class Signup extends Component{
                             <Field
                                 label="Email"
                                 name="email"
-                                component={this.renderField}
+                                type="text"
+                                component={input.renderField}
                             />
                             <Field
                                 label="Password"
                                 name="password"
-                                component={this.renderField}
+                                type="password"
+                                component={input.renderField}
                             />
                             <Button type="submit">Submit</Button>
                         </form>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
 import  NavbarComp from './partials/navbar';
-import FlashMessages from '../../components/helpers/message';
+import FlashMessages from '../helpers/message';
 
 
 class Home extends Component{

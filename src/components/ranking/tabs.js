@@ -15,6 +15,7 @@ import { Button } from 'semantic-ui-react'
 import { Tab } from 'semantic-ui-react'
 import { fetchFighters } from '../../actions/ranking';
 import { fetchEvents } from '../../actions/events';
+import FlashMessages from './../helpers/message';
 
 
 class TabsComp extends Component{
@@ -45,6 +46,7 @@ class TabsComp extends Component{
         }
         return(
             <div>
+                <FlashMessages/>
                 <NavbarComp/>
                 <Container className="top-section" >
                     <Tab className="table-responsive-custom" menu={{ secondary: true, pointing: true }} panes={this.state.tabs} />

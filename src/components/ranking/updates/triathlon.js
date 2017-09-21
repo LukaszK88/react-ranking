@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import { Button, Modal } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {withRouter} from 'react-router-dom';
-import InputRange from 'react-input-range';
-import { Select } from 'semantic-ui-react';
 import { updateRanking} from '../../../actions/ranking';
 import _ from 'lodash';
+import { input } from '../../../helpers/input';
 
 class UpdateTriathlon extends Component{
     constructor(props) {
@@ -15,30 +14,6 @@ class UpdateTriathlon extends Component{
         this.state = {
             value: 0
         };
-    }
-
-    renderSelect(field){
-        return(
-            <div>
-                <Select { ...field.input } selection onChange={(param,data) => field.input.onChange(data.value)} value={field.input.value} options={field.countryOptions}/>
-                <div className="text-help">
-                    { field.meta.touched ? field.meta.error : '' }
-                </div>
-            </div>
-        )
-    }
-
-    renderSlider(field){
-        return(
-            <div>
-                <label>{ field.label }</label>
-                <InputRange
-                    maxValue={field.max}
-                    minValue={field.min}
-                    { ...field.input }
-                />
-            </div>
-        );
     }
 
     onSubmit(values){
@@ -72,7 +47,7 @@ class UpdateTriathlon extends Component{
                                 max={20}
                                 min={0}
                                 onChange={value => this.setState({ value })}
-                                component={this.renderSlider}
+                                component={input.renderSlider}
                             />
                             <br/>
                             <Field
@@ -82,13 +57,14 @@ class UpdateTriathlon extends Component{
                                 max={20}
                                 min={0}
                                 onChange={value => this.setState({ value })}
-                                component={this.renderSlider}
+                                component={input.renderSlider}
                             />
                             <br/>
                             <Field
                                 name="event_id"
-                                countryOptions={countryOptions}
-                                component={this.renderSelect}
+                                options={countryOptions}
+                                placeholder="Select Competition"
+                                component={input.renderSelect}
                             />
                             <br/>
                             <Button type="submit">Submit</Button>

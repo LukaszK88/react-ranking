@@ -2,6 +2,8 @@ import axios from 'axios';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import {FETCH_USER,UPDATE_USER} from './types';
 import {addFlashMessage} from './flashMessages';
+import request from 'superagent';
+
 
 export const CURRENT_USER = 'CURRENT_USER';
 export const API = 'http://whitecompany.com/api/';
@@ -16,12 +18,16 @@ export function logout() {
 }
 
 export function updateUser(data) {
-    const request = axios.put(`${API}user-update`,data);
+    return axios.put(`${API}user-update`,data).then((response) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('success', response.data.message));
+            dispatch({
+                type:UPDATE_USER,
+                payload:response.data.data
+            });
+        }
+    });
 
-    return {
-        type:UPDATE_USER,
-        payload:request
-    }
 }
 
 export function fetchUser(userId) {
@@ -33,23 +39,39 @@ export function fetchUser(userId) {
     }
 }
 
-export function uploadProfileImage(userId,image) {
-    return (dispatch) => { dispatch(axios.post(`${API}storePhoto/${userId}`,{file:image}) )};
+export function uploadProfileImage(userId,images) {
+
+    return (dispatch) => { dispatch( request.post(`${API}storePhoto/${userId}`).attach('file',images[0]).then((response) =>{
+        dispatch(addFlashMessage('success',response.body.message));
+    }))};
 }
 
 export function loginUser(user) {
     return axios.post(`${API}user/authenticate`,user).then((response) => {
-        const {token} = response.data;
+        const {token, message} = response.data;
         window.localStorage.setItem('token',token);
         setAuthorizationToken(token);
         return (dispatch) => {
             dispatch(currentUser(token));
+            dispatch(addFlashMessage('success', message));
+        }
+    }).catch((error) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('error', error.response.data.error));
         }
     });
 }
 
 export function registerUser(data) {
-    return (dispatch) => { dispatch(axios.post(`${API}user-store`,data) )};
+    return axios.post(`${API}user-store`,data).then((response) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('success', response.data.message));
+        }
+    }).catch((error) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('error', error.response.data.error));
+        }
+    });
 }
 
 export function loginWithFacebook(data) {
@@ -61,6 +83,10 @@ export function loginWithFacebook(data) {
         return (dispatch) => {
             dispatch(currentUser(token));
             dispatch(addFlashMessage('success', message));
+        }
+    }).catch((error) => {
+        return (dispatch) => {
+            dispatch(addFlashMessage('error', error.response.data.error));
         }
     });
 }

@@ -7,6 +7,7 @@ export default function (state=null,action) {
     switch (action.type){
         case DELETE_ACHIEVEMENT:
             const newState = {...state};
+
             return {...state,['achievements']:{
                         ...state['achievements'],['data']:{
                             ...state['achievements']['data'],['data']: newState.achievements.data.data.filter(achievement => achievement.id !== action.payload.id)

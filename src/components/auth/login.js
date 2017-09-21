@@ -5,36 +5,11 @@ import { Field, reduxForm } from 'redux-form';
 import { loginUser, loginWithFacebook } from '../../actions';
 import {withRouter} from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
-import {addFlashMessage} from '../../actions/flashMessages';
-
-
-
+import { input } from '../../helpers/input';
 class Login extends Component{
 
-    renderField(field){
-
-        const className = `form-group ${ field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
-
-        return(
-            <div className={className}>
-                <label>{ field.label }</label>
-                <input
-                    className="form-control"
-                    type="text"
-                    { ...field.input }
-                />
-                <div className="text-help">
-                    { field.meta.touched ? field.meta.error : '' }
-                </div>
-            </div>
-        );
-    }
-
     onSubmit(values){
-        // this.props.addFlashMessage({
-        //     type:'success',
-        //     text:'hi from comp'
-        // });
+
        this.props.loginUser(values);
        this.props.history.push('/');
     }
@@ -51,17 +26,22 @@ class Login extends Component{
                             <Field
                                 label="Username"
                                 name="username"
-                                component={this.renderField}
+                                type="text"
+                                component={input.renderField}
                             />
                             <Field
                                 label="Password"
                                 name="password"
-                                component={this.renderField}
+                                type="password"
+                                component={input.renderField}
                             />
                             <Button type="submit">Submit</Button>
                             <FacebookLogin
                                 appId="1884018281856728"
                                 fields="name,email,picture"
+                                cssClass="ui button"
+                                icon="fa-facebook"
+                                textButton=" FB Login"
                                 callback={this.props.loginWithFacebook}
                             />
                         </form>
@@ -99,4 +79,4 @@ function mapStateToProps(state) {
     return { };
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'addPostForm'})(connect(mapStateToProps,{loginUser,loginWithFacebook,addFlashMessage})(Login)));
+export default withRouter(reduxForm({validate:validate, form: 'addPostForm'})(connect(mapStateToProps,{loginUser,loginWithFacebook})(Login)));

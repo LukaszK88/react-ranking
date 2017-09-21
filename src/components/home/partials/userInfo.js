@@ -1,14 +1,10 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Header,List, Image, Modal } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { Select } from 'semantic-ui-react';
-import _ from 'lodash';
-import InputRange from 'react-input-range';
-import DatePicker from 'material-ui/DatePicker';
 import {updateUser} from '../../../actions';
-
-
+import { input } from '../../../helpers/input';
+import { config } from '../../../config';
 
 class UpdateUser extends Component{
     constructor(props) {
@@ -20,77 +16,9 @@ class UpdateUser extends Component{
         };
     }
 
-
     onSubmit(values){
        this.props.updateUser(values);
        this.handleClose();
-    }
-
-    renderField(field){
-
-        const className = `form-group ${ field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
-
-        return(
-            <div className={className}>
-                <label>{ field.label }</label>
-                <input
-                    className="form-control"
-                    type="text"
-                    { ...field.input }
-                />
-                <div className="text-help">
-                    { field.meta.touched ? field.meta.error : '' }
-                </div>
-            </div>
-        );
-    }
-
-    renderSlider(field){
-        return(
-            <div>
-                <label>{ field.label }</label>
-                <InputRange
-                    maxValue={field.max}
-                    minValue={field.min}
-                    { ...field.input }
-                />
-            </div>
-        );
-    }
-
-    renderTextField(field){
-        const className = `form-group ${ field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
-
-        return(
-            <div className={className}>
-                <label>{ field.label }</label>
-                <textarea
-                    className="form-control"
-                    { ...field.input }
-                ></textarea>
-                <div className="text-help">
-                    { field.meta.touched ? field.meta.error : '' }
-                </div>
-            </div>
-        );
-    }
-
-    renderDatepicker(field){
-        console.log(field);
-        return(
-            <DatePicker onChange={(event, date) => field.input.onChange(date)} name={field.input.name} value={field.input.value} hintText={field.label} autoOk={true} openToYearSelection={true} />
-        )
-    }
-
-    renderSelect(field){
-        return(
-            <div>
-                <Select { ...field.input } selection onChange={(param,data) => field.input.onChange(data.value)} placeholder={field.placeholder} value={field.input.value} options={field.options}/>
-                <div className="text-help">
-                    { field.meta.touched ? field.meta.error : '' }
-                </div>
-            </div>
-        )
     }
 
     handleOpen = () => this.setState({ modalOpen: true });
@@ -101,10 +29,7 @@ class UpdateUser extends Component{
 
         const handleSubmit = this.props.handleSubmit;
 
-        const options = [
-            {key:'white-company' , value:'White Company', flag:'gb', text:'White Company'},
-            {key:'uk-federation' , value:'UK Federation', flag:'gb', text:'UK Federation'}
-        ];
+        const options = config.clubs.select;
 
         return(
 
@@ -114,46 +39,48 @@ class UpdateUser extends Component{
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                             <Field
-                                label="Your Name"
+                                label="Your Name *"
                                 name="name"
                                 placeholder="Your name"
-                                component={this.renderField}
+                                type="text"
+                                component={input.renderField}
                             />
                             <br/>
                             <Field
-                                label="Your Club"
+                                label="Your Club *"
                                 name="club"
                                 placeholder="Your Club"
                                 options={options}
-                                component={this.renderSelect}
+                                component={input.renderSelect}
                             />
                             <br/>
                             <Field
-                                label="Weight"
+                                label="Weight *"
                                 name="weight"
                                 min={50}
                                 max={140}
                                 placeholder="Your weight"
-                                component={this.renderSlider}
+                                component={input.renderSlider}
                             />
                             <br/>
                             <Field
                                 label="Favourite Quote"
                                 name="quote"
                                 placeholder="Your favourite quote..."
-                                component={this.renderField}
+                                type="text"
+                                component={input.renderField}
                             />
                             <br/>
                             <Field
                                 label="About"
                                 name="about"
-                                component={this.renderTextField}
+                                component={input.renderTextField}
                             />
                             <br/>
                             <Field
-                                label="age"
+                                label="Age *"
                                 name="age"
-                                component={this.renderDatepicker}
+                                component={input.renderDatepicker}
                             />
 
                             <Button type="submit">Submit</Button>
@@ -168,7 +95,18 @@ class UpdateUser extends Component{
 function validate(values) {
     const errors = {};
 
-
+    if(!values.name){
+        errors.name = "Enter your name";
+    }
+    if(!values.club){
+        errors.club = "Select your Club";
+    }
+    if(!values.weight){
+        errors.weight = "Weight is mandatory";
+    }
+    if(!values.age){
+        errors.age = "Age is mandatory";
+    }
 
     return errors;
 }
@@ -181,6 +119,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 let InitializeFromStateForm = reduxForm({
+    validate:validate,
     form: 'updateUser',
     enableReinitialize : true
 })(UpdateUser);

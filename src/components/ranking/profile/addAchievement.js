@@ -1,12 +1,12 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux';
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { Select } from 'semantic-ui-react';
 import { fetchEvents } from '../../../actions/events'
 import {addAchievement} from '../../../actions/ranking';
 import _ from 'lodash';
+import { config } from '../../../config';
+import { input } from '../../../helpers/input';
 
 
 class AddAchievement extends Component{
@@ -19,17 +19,6 @@ class AddAchievement extends Component{
     }
     componentDidMount(){
         this.props.fetchEvents();
-    }
-
-    renderSelect(field){
-        return(
-            <div>
-                <Select { ...field.input } selection onChange={(param,data) => field.input.onChange(data.value)} value={field.input.value} placeholder={field.placeholder} options={field.options}/>
-                <div className="text-help">
-                    { field.meta.touched ? field.meta.error : '' }
-                </div>
-            </div>
-        )
     }
 
     onSubmit(values){
@@ -45,25 +34,9 @@ class AddAchievement extends Component{
     render(){
         const handleSubmit = this.props.handleSubmit;
 
-        const categories = [
-            { key:'Bohurt', value:'Bohurt',text:'Bohurt'},
-            { key:'10v10', value:'10v10',text:'10v10'},
-            { key:'16v16', value:'16v16',text:'16v16'},
-            { key:'21v21', value:'21v21',text:'21v21'},
-            { key:'Sword&Shield', value:'Sword&Shield',text:'Sword&Shield'},
-            { key:'Sword&Buckler', value:'Sword&Buckler',text:'Sword&Buckler'},
-            { key:'Polearm', value:'Polearm',text:'Polearm'},
-            { key:'Longsword', value:'Longsword',text:'Longsword'},
-            { key:'Triathlon', value:'Triathlon',text:'Triathlon'},
-            { key:'Profight', value:'Profight',text:'Profight'}
+        const categories = config.select.categories;
 
-        ];
-
-        const places = [
-            { key:'1st', value:'1st',text:'1st'},
-            { key:'2nd', value:'2nd',text:'2nd'},
-            { key:'3rd', value:'3rd',text:'3rd'}
-        ];
+        const places = config.select.places;
 
         const countryOptions = _.map(this.props.events,event => {
             return {key:event.location, value:event.id, flag:event.location, text: `${event.title} ${event.date.substring(0,4)}`};
@@ -79,21 +52,21 @@ class AddAchievement extends Component{
                                 name="event_id"
                                 placeholder="Select competition"
                                 options={countryOptions}
-                                component={this.renderSelect}
+                                component={input.renderSelect}
                             />
                             <br/>
                             <Field
                                 name="category"
                                 placeholder="Category"
                                 options={categories}
-                                component={this.renderSelect}
+                                component={input.renderSelect}
                             />
                             <br/>
                             <Field
                                 name="place"
                                 placeholder="Place"
                                 options={places}
-                                component={this.renderSelect}
+                                component={input.renderSelect}
                             />
                             <br/>
                             <Button type="submit">Submit</Button>
@@ -108,7 +81,15 @@ class AddAchievement extends Component{
 function validate(values) {
     const errors = {};
 
-
+    if(!values.event_id){
+        errors.event_id = "You must select an event";
+    }
+    if(!values.category){
+        errors.category = "You must select an category";
+    }
+    if(!values.place){
+        errors.place = "You must select an place";
+    }
 
     return errors;
 }

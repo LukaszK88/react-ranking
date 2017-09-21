@@ -1,11 +1,7 @@
-
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux';
 import { Message } from 'semantic-ui-react'
-import _ from 'lodash';
 import { removeFlashMessage } from '../../actions/flashMessages';
-
 
 class FlashMessages extends Component{
 
