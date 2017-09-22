@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux';
 import { userHelper } from '../../helpers/user';
-import { Header, Image, Table, Container } from 'semantic-ui-react'
+import { Header, Image, Table} from 'semantic-ui-react'
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
 

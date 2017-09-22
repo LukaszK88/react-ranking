@@ -31,7 +31,7 @@ class Signup extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} >Register</Button>}>
+            <Modal size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<a className="nav-link" onClick={this.handleOpen} >Register</a>}>
                 <Modal.Header>Register</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
@@ -48,7 +48,7 @@ class Signup extends Component{
                                 type="password"
                                 component={input.renderField}
                             />
-                            <Button type="submit">Submit</Button>
+                            <Button color={'black'} type="submit">Register</Button>
                         </form>
 
                     </Modal.Description>

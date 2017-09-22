@@ -2,6 +2,22 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+
+}
+
+.bg {
+  position: relative;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./wcbg.png');
+  text-align: center;
+  color: white;
+
+  padding: 200px 15px 200px;
 }
 
 .table-responsive-custom{
@@ -18,4 +34,55 @@ body {
 
 .top-section{
   margin-top: 70px;
+}
+
+.black-background{
+  background-color: black;
+  color: white;
+}
+
+.ui.modal>.header:not(.ui){
+  background-color: black;
+  color: white;
+}
+
+@media (min-width: 992px){
+  .navbar-toggleable-md .navbar-nav{
+    margin-left: auto;
+  }
+
+  ul.navbar-nav.mr-auto{
+    margin-right: 0px!important;
+    margin-left: auto!important;
+  }
+
+  .navbar-toggleable-md .navbar-nav .nav-item .nav-link{
+    font-size: large;
+    cursor: pointer;
+    transition: linear 0.1s;
+  }
+
+  .navbar-toggleable-md .navbar-nav .nav-item .nav-link:hover{
+    color: black;
+    margin-top: -3px;
+    border-bottom: 2px solid black;
+  }
+
+  .navbar-toggleable-md .navbar-nav .nav-item .nav-link:active{
+    color: white;
+    background-color: black;
+    margin-top: -3px;
+    border-radius: 25px;
+
+  }
+
+}
+
+.ui.segment{
+  padding:0px!important;
+}
+
+table a {
+  text-decoration: none;
+  color: white;
 }

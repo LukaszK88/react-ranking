@@ -1,23 +1,28 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
-import { Link } from 'react-router-dom';
 import  NavbarComp from './partials/navbar';
 import FlashMessages from '../helpers/message';
+import { Sticky } from 'semantic-ui-react'
 
 
 class Home extends Component{
     state = {};
 
-
+    handleContextRef = contextRef => this.setState({ contextRef });
 
     render() {
-
+        const { contextRef } = this.state;
 
         return (
-            <div>
+            <div ref={this.handleContextRef}>
                 <FlashMessages/>
+
                 <NavbarComp/>
+                    <div className="bg">
+
+                    </div>
+
             </div>
         )
     }

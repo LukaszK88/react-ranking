@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 import Login from '../../auth/login'
 import Signup from '../../auth/singup';
 import {logout} from '../../../actions';
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import { Button, Image } from 'semantic-ui-react';
 import DropdownMenu from 'react-dd-menu';
 import UpdateUser from './userInfo';
 import ChangePassword from '../../auth/changePassword';
+import { baseUrl } from '../../../index';
 
 
 
@@ -47,8 +48,8 @@ class NavbarComp extends Component{
             const menuOptions = {
                 isOpen: this.state.isMenuOpen,
                 close: this.close,
-                toggle: <Button type="button" onClick={this.toggleDropdown}>{this.props.currentUser.user.username} <i
-                    className="fa fa-chevron-down"></i></Button>,
+                toggle: <a className="nav-link"  onClick={this.toggleDropdown}>{this.props.currentUser.user.username} <i
+                    className="fa fa-chevron-down"></i></a>,
                 align: 'right',
                 closeOnInsideClick: false,
                 closeOnOutsideClick: false
@@ -58,14 +59,14 @@ class NavbarComp extends Component{
                     <li className="nav-item">
                         <Link className="nav-link" to="/ranking">Ranking</Link>
                     </li>
-                    <DropdownMenu {...menuOptions}>
+                    <DropdownMenu as="li" className="nav-item" {...menuOptions}>
                         <li><Link to={`/profile/${this.props.currentUser.user.id}`}>Profile</Link></li>
                         <li><UpdateUser/></li>
                         <li><ChangePassword/></li>
                     </DropdownMenu>
 
                     <li className="nav-item">
-                        <Button onClick={this.logout.bind(this)}>Logout</Button>
+                        <a className="nav-link" onClick={this.logout.bind(this)}>Logout</a>
                     </li>
                 </ul>
             )
@@ -75,8 +76,7 @@ class NavbarComp extends Component{
 
     renderLoggedOut(){
         return (
-            <ul className="navbar-nav mr-auto">
-
+            <ul className="navbar-nav">
                 <li className="nav-item">
                     <Link className="nav-link" to="/ranking">Ranking</Link>
                 </li>
@@ -93,11 +93,12 @@ class NavbarComp extends Component{
     render(){
 
         return(
-            <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+
+            <nav className='navbar navbar-toggleable-md navbar-light bg-faded'>
                 <button onClick={this.toggle} className="navbar-toggler navbar-toggler-right" type="button" >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <Link className="navbar-brand" to="/">Navbar</Link>
+                <Link className="navbar-brand" to="/"><Image  size={'tiny'} src={`${baseUrl}img/kaka.png`}/></Link>
 
                 <div className={(!this.state.isOpen ? 'collapse' : '') + ' navbar-collapse'}>
                     { this.props.currentUser.isLoggedIn ? this.renderLoggedIn() : this.renderLoggedOut()}

@@ -15,14 +15,32 @@ import { Tab } from 'semantic-ui-react'
 import { fetchFighters } from '../../actions/ranking';
 import { fetchEvents } from '../../actions/events';
 import FlashMessages from './../helpers/message';
-
+import {Visibility} from 'semantic-ui-react';
 
 class TabsComp extends Component{
     constructor(props) {
         super(props);
 
-        this.state = {tabs:[]};
+        this.state = {
+            tabs:[],
+            navClass:'',
+            calculations: {
+                height: 0,
+                width: 0,
+                topPassed: false,
+                bottomPassed: false,
+                pixelsPassed: 0,
+                percentagePassed: 0,
+                topVisible: false,
+                bottomVisible: false,
+                fits: false,
+                passing: false,
+                onScreen: false,
+                offScreen: false,
+            }
+        };
     }
+
     componentDidMount(){
         this.props.fetchFighters();
         this.props.fetchEvents();
@@ -39,17 +57,23 @@ class TabsComp extends Component{
         ]}
     }
 
+    handleUpdate = (e, { calculations }) => this.setState({ calculations });
+
     render(){
+        const { calculations} = this.state;
         if(!this.props.fighters){
             return <div>Loading...</div>;
         }
         return(
-            <div>
+            <div >
+                <Visibility onUpdate={this.handleUpdate}>
                 <FlashMessages/>
-                <NavbarComp/>
+                    <NavbarComp />
                 <Container className="top-section" >
                     <Tab className="table-responsive-custom" menu={{ secondary: true, pointing: true }} panes={this.state.tabs} />
                 </Container>
+                </Visibility>
+
             </div>
         )
     }

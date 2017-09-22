@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Header, Image, Table } from 'semantic-ui-react'
 import { userHelper } from '../../helpers/user';
 import { fetchLeaderboard } from '../../actions/ranking';
+import {Link} from 'react-router-dom';
+
 
 import _ from 'lodash';
 
@@ -21,8 +23,8 @@ class Leaderboard extends Component{
                         <Header as='h4' image>
                             {/*<Image src={user.getImage(fighter)} shape='rounded' size='mini' />*/}
                             <Header.Content>
-                                {row.name}
-                                <Header.Subheader>White Company</Header.Subheader>
+                                <Link to={`/profile/${row.id}`}>  {row.name}</Link>
+                                <Header.Subheader>{row.club}</Header.Subheader>
                             </Header.Content>
                         </Header>
                     </Table.Cell>

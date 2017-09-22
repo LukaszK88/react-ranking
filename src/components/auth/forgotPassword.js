@@ -31,7 +31,7 @@ class ForgotPassword extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} >Forgot password?</Button>}>
+            <Modal size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button color={'black'} onClick={this.handleOpen} >Forgot password?</Button>}>
                 <Modal.Header>Forgot Password</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
@@ -42,7 +42,7 @@ class ForgotPassword extends Component{
                                 type="text"
                                 component={input.renderField}
                             />
-                            <Button type="submit">Submit</Button>
+                            <Button color={'black'} type="submit">Send</Button>
                         </form>
 
                     </Modal.Description>

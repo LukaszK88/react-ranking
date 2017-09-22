@@ -21,7 +21,7 @@ class Login extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'tiny'} trigger={<Button>Login</Button>}>
+            <Modal size={'tiny'} trigger={<a className="nav-link">Login</a>}>
                 <Modal.Header>Login</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
@@ -38,11 +38,11 @@ class Login extends Component{
                                 type="password"
                                 component={input.renderField}
                             />
-                            <Button type="submit">Submit</Button>
+                            <Button color={'black'} type="submit">Login</Button>
                             <FacebookLogin
                                 appId="1884018281856728"
                                 fields="name,email,picture"
-                                cssClass="ui button"
+                                cssClass="ui facebook button"
                                 icon="fa-facebook"
                                 textButton=" FB Login"
                                 callback={this.props.loginWithFacebook}
