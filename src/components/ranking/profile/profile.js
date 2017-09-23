@@ -78,7 +78,7 @@ class Profile extends Component{
                     <List.Item>
                         <List.Icon dangerouslySetInnerHTML={{__html: achievement.cup}}/>
                         <List.Content>
-                            <List.Header as='a'><Flag name={achievement.event.location}/>{achievement.event.title}</List.Header>
+                            <List.Header><Flag name={achievement.event.location}/>{achievement.event.title}</List.Header>
                             <List.Description>
                                 {achievement.category} | {achievement.place} | {stringHelper.limitTo(achievement.event.date,10)}
                             </List.Description>
@@ -162,19 +162,6 @@ class Profile extends Component{
         }
     }
 
-    renderClubLogo(){
-        console.log('test');
-        const {profile} = this.props;
-        if(profile.user) {
-            console.log(profile.user.club);
-            if(profile.user.club === "UK Federation"){
-                return (<Image size="tiny" src={`${baseUrl}img/ukfed.png`}/>);
-            }else{
-                return (<Image size="tiny" src={`${baseUrl}img/kaka.png`}/>);
-            }
-        }
-    }
-
     renderUserProfile(){
         const {profile} = this.props;
         if(profile.user) {
@@ -201,8 +188,7 @@ class Profile extends Component{
                                         <List.Item icon='certificate' content={'Quote :' }/>
                                         <List.Item content={'"' + profile.user.quote + '"'}/>
                                         <List.Item icon='certificate' content={'Club :' }/>
-
-                                        {this.renderClubLogo()}
+                                        {<Image size={'tiny'} src={profile.user.club.logo}/>}
                                     </List>
                                 </div>
                                 <div className="col-md-6">

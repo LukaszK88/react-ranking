@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { Button, Modal } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {updateUser} from '../../../actions';
+import {fetchClubs} from '../../../actions/clubs';
 import { input } from '../../../helpers/input';
-import { config } from '../../../config';
+import _ from 'lodash';
+import { Tooltip } from 'reactstrap';
 
 class UpdateUser extends Component{
     constructor(props) {
@@ -12,8 +14,19 @@ class UpdateUser extends Component{
 
         this.state = {
             modalOpen: false,
+            tooltipOpen: false,
             value: 50
         };
+    }
+
+    toggle() {
+        this.setState({
+            tooltipOpen: !this.state.tooltipOpen
+        });
+    }
+
+    componentDidMount(){
+        this.props.fetchClubs();
     }
 
     onSubmit(values){
@@ -25,11 +38,38 @@ class UpdateUser extends Component{
 
     handleClose = () => this.setState({ modalOpen: false });
 
+    renderClubSelection(){
+        const options = _.map(this.props.clubs, (club) => {
+            return {key:club.id , value:club.id, flag:club.country, text:club.name}
+        });
+
+        if(this.props.currentUser.user.club){
+            return (<div>
+                <p id="club">{this.props.currentUser.user.club.name}</p>
+                    <Tooltip placement="top" isOpen={this.state.tooltipOpen} target="club"
+                    toggle={this.toggle.bind(this)}>
+                    Contact your Team Captain to change your club
+                    </Tooltip>
+                </div>
+            )
+        }else{
+            return(
+                <Field
+                    label="Your Club *"
+                    name="club_id"
+                    placeholder="Your Club"
+                    options={options}
+                    component={input.renderSelect}
+                />
+            )
+        }
+    }
+
     render(){
 
         const handleSubmit = this.props.handleSubmit;
 
-        const options = config.clubs.select;
+
 
         return(
 
@@ -46,13 +86,7 @@ class UpdateUser extends Component{
                                 component={input.renderField}
                             />
                             <br/>
-                            <Field
-                                label="Your Club *"
-                                name="club"
-                                placeholder="Your Club"
-                                options={options}
-                                component={input.renderSelect}
-                            />
+                            {this.renderClubSelection()}
                             <br/>
                             <Field
                                 label="Weight *"
@@ -78,12 +112,12 @@ class UpdateUser extends Component{
                             />
                             <br/>
                             <Field
-                                label="Age *"
+                                label="Date of birth *"
                                 name="age"
                                 component={input.renderDatepicker}
                             />
 
-                            <Button type="submit">Submit</Button>
+                            <Button color={'black'} type="submit">Submit</Button>
                         </form>
                     </Modal.Description>
                 </Modal.Content>
@@ -114,6 +148,7 @@ function validate(values) {
 
 function mapStateToProps(state, ownProps) {
     return {currentUser: state.currentUser,
+            clubs: state.clubs,
         initialValues: state.currentUser.user
     };
 }
@@ -125,7 +160,7 @@ let InitializeFromStateForm = reduxForm({
 })(UpdateUser);
 
 InitializeFromStateForm = connect(
-    mapStateToProps,{updateUser}
+    mapStateToProps,{updateUser,fetchClubs}
 )(InitializeFromStateForm);
 
 export default InitializeFromStateForm;

@@ -10,7 +10,7 @@ import {Link} from 'react-router-dom';
 
 class Profight extends Component{
     renderRows(){
-        const { admin } = this.props.currentUser;
+        const { admin, clubAdmin } = this.props.currentUser;
 
         return _.map(this.props.fighters,(fighter) => {
             return(
@@ -20,7 +20,7 @@ class Profight extends Component{
                             <Image src={userHelper.getImage(fighter)} shape='rounded' size='mini' />
                             <Header.Content>
                                 <Link to={`/profile/${fighter.id}`}>  {fighter.name} </Link>
-                                <Header.Subheader>{fighter.club}</Header.Subheader>
+                                <Header.Subheader>{fighter.club.name}</Header.Subheader>
                             </Header.Content>
                         </Header>
                     </Table.Cell>
@@ -45,7 +45,7 @@ class Profight extends Component{
                     <Table.Cell width="1" >
                         {fighter.profightTable.points}
                     </Table.Cell>
-                    { admin &&
+                    { (clubAdmin === fighter.club.id || admin) &&
                     <Table.Cell width="1" >
                         <UpdateProfight events={this.props.events} fighter={fighter}/>
                     </Table.Cell>
@@ -56,11 +56,19 @@ class Profight extends Component{
     }
 
     render(){
-        const { admin } = this.props.currentUser;
+        const { admin, clubAdmin } = this.props.currentUser;
 
         return(
             <div>
-                <Table celled inverted selectable unstackable>
+                <Table className="table-responsive-custom" celled inverted selectable unstackable>
+                    <p className="category-points">
+                        <span className="text-green">4pts</span> - KO |
+                        <span className="text-green">3pts</span> - Win |
+                        <span className="text-green">1pt</span> - Lost |
+                        <span className="text-green">10pts</span> - FC I Win |
+                        <span className="text-green">6pts</span> - FC II Win |
+                        <span className="text-green">3pts</span> - FC III Win
+                    </p>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Fighter</Table.HeaderCell>
@@ -70,15 +78,14 @@ class Profight extends Component{
                             <Table.HeaderCell width="1">FC I</Table.HeaderCell>
                             <Table.HeaderCell width="1">FC II</Table.HeaderCell>
                             <Table.HeaderCell width="1">FC III</Table.HeaderCell>
-                            <Table.HeaderCell width="1">Points</Table.HeaderCell>
-                            { admin &&
-                                <Table.HeaderCell width="1"></Table.HeaderCell>
+                            <Table.HeaderCell width="1">Total Points</Table.HeaderCell>
+                            { (clubAdmin || admin) &&
+                                <Table.HeaderCell width="1">Update</Table.HeaderCell>
                             }
                         </Table.Row>
                     </Table.Header>
-
+                    {this.renderRows()}
                     <Table.Body>
-                        {this.renderRows()}
                     </Table.Body>
                 </Table>
             </div>

@@ -10,7 +10,7 @@ import {Link} from 'react-router-dom';
 
 class SwordBuckler extends Component{
     renderRows(){
-        const { admin } = this.props.currentUser;
+        const { admin, clubAdmin } = this.props.currentUser;
 
         return _.map(this.props.fighters,(fighter) => {
             return(
@@ -20,7 +20,7 @@ class SwordBuckler extends Component{
                             <Image src={userHelper.getImage(fighter)} shape='rounded' size='mini' />
                             <Header.Content>
                                 <Link to={`/profile/${fighter.id}`}> {fighter.name}</Link>
-                                <Header.Subheader>{fighter.club}</Header.Subheader>
+                                <Header.Subheader>{fighter.club.name}</Header.Subheader>
                             </Header.Content>
                         </Header>
                     </Table.Cell>
@@ -33,7 +33,7 @@ class SwordBuckler extends Component{
                     <Table.Cell width="1" >
                         {fighter.swordBucklerTable.points}
                     </Table.Cell>
-                    { admin &&
+                    { (clubAdmin === fighter.club.id || admin) &&
                     <Table.Cell width="1" >
                         <UpdateSwordBuckler events={this.props.events} fighter={fighter}/>
                     </Table.Cell>
@@ -44,21 +44,22 @@ class SwordBuckler extends Component{
     }
 
     render(){
-        const { admin } = this.props.currentUser;
+        const { admin, clubAdmin } = this.props.currentUser;
 
         return(
             <div>
-                <Table celled inverted selectable unstackable>
-
+                <Table className="table-responsive-custom" celled inverted selectable unstackable>
+                    <p className="category-points">
+                        <span className="text-green">1pt</span> - Win
+                    </p>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Fighter</Table.HeaderCell>
                             <Table.HeaderCell width="1">Win</Table.HeaderCell>
                             <Table.HeaderCell width="1">Lost</Table.HeaderCell>
-                            <Table.HeaderCell width="1">Points</Table.HeaderCell>
-
-                            { admin &&
-                            <Table.HeaderCell width="1"></Table.HeaderCell>
+                            <Table.HeaderCell width="1">Total Points</Table.HeaderCell>
+                            { (clubAdmin || admin) &&
+                            <Table.HeaderCell width="1">Update</Table.HeaderCell>
                             }
                         </Table.Row>
                     </Table.Header>

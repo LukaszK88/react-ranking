@@ -86,3 +86,17 @@ table a {
   text-decoration: none;
   color: white;
 }
+.category-points{
+  margin-top: 3px!important;
+  margin-bottom: 2px;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+.text-green{
+  color: green;
+}
+
+.text-red{
+  color:red;
+}

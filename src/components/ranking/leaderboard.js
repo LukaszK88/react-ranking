@@ -14,14 +14,13 @@ class Leaderboard extends Component{
         this.props.fetchLeaderboard();
     }
 
-
     renderRows(){
         return _.map(this.props.leaderboard, row => {
             return(
                 <Table.Row key={row.category}>
                     <Table.Cell>
                         <Header as='h4' image>
-                            {/*<Image src={user.getImage(fighter)} shape='rounded' size='mini' />*/}
+                            <Image src={userHelper.getImage(row)} shape='rounded' size='mini' />
                             <Header.Content>
                                 <Link to={`/profile/${row.id}`}>  {row.name}</Link>
                                 <Header.Subheader>{row.club}</Header.Subheader>
@@ -48,7 +47,7 @@ class Leaderboard extends Component{
                         <Table.Row>
                             <Table.HeaderCell>Fighter</Table.HeaderCell>
                             <Table.HeaderCell width="2">Category</Table.HeaderCell>
-                            <Table.HeaderCell width="1">Points</Table.HeaderCell>
+                            <Table.HeaderCell width="1">Total Points</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>

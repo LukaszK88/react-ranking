@@ -42,7 +42,7 @@ class AddAchievement extends Component{
             return {key:event.location, value:event.id, flag:event.location, text: `${event.title} ${event.date.substring(0,4)}`};
         });
         return(
-            <Modal size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} className="float-right">Add</Button>}>
+            <Modal size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button color={'black'}  onClick={this.handleOpen} className="float-right">Add</Button>}>
                 <Modal.Header>Add Achievement</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
@@ -69,7 +69,7 @@ class AddAchievement extends Component{
                                 component={input.renderSelect}
                             />
                             <br/>
-                            <Button type="submit">Submit</Button>
+                            <Button color={'black'}  type="submit">Add</Button>
                         </form>
                     </Modal.Description>
                 </Modal.Content>

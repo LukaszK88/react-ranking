@@ -55,7 +55,7 @@ class UpdateAchievement extends Component{
                                 component={input.renderSelect}
                             />
                             <br/>
-                            <Button type="submit">Submit</Button>
+                            <Button color={'black'}  type="submit">Update</Button>
                         </form>
                     </Modal.Description>
                 </Modal.Content>

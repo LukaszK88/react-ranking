@@ -54,7 +54,7 @@ class ChangePassword extends Component{
                                 type="password"
                                 component={input.renderField}
                             />
-                            <Button type="submit">Submit</Button>
+                            <Button color={'black'} type="submit">Change</Button>
                         </form>
 
                     </Modal.Description>

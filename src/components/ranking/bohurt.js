@@ -9,14 +9,14 @@ import {Link} from 'react-router-dom';
 
 
 
-class Total extends Component{
+class Bohurt extends Component{
     constructor(props){
         super(props);
 
     }
 
     renderRows(){
-        const { admin } = this.props.currentUser;
+        const { admin, clubAdmin } = this.props.currentUser;
         return _.map(this.props.fighters,(fighter) => {
             return(
                 <Table.Row key={fighter.id}>
@@ -25,7 +25,7 @@ class Total extends Component{
                             <Image src={userHelper.getImage(fighter)} shape='rounded' size='mini' />
                             <Header.Content>
                                 <Link to={`/profile/${fighter.id}`}> {fighter.name}</Link>
-                                <Header.Subheader>{fighter.club}</Header.Subheader>
+                                <Header.Subheader>{fighter.club.name}</Header.Subheader>
                             </Header.Content>
                         </Header>
                     </Table.Cell>
@@ -47,7 +47,7 @@ class Total extends Component{
                     <Table.Cell width="1" >
                         {fighter.bohurtTable.points}
                     </Table.Cell>
-                    { admin &&
+                    { (clubAdmin === fighter.club.id || admin) &&
                     <Table.Cell width="1" >
                         <UpdateBohurt events={this.props.events} fighter={fighter}/>
                     </Table.Cell>
@@ -59,12 +59,17 @@ class Total extends Component{
 
 
     render(){
-        const { admin } = this.props.currentUser;
+        const { admin, clubAdmin } = this.props.currentUser;
 
         return(
 
             <div>
                 <Table className="table-responsive-custom" celled inverted selectable unstackable>
+                    <p className="category-points">
+                        <span className="text-green">2pts</span> - Won and standing |
+                        <span className="text-green">1pt</span> - Last man standing |
+                        <span className="text-red">-3pts</span> - Suicide
+                    </p>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Fighter</Table.HeaderCell>
@@ -74,8 +79,8 @@ class Total extends Component{
                             <Table.HeaderCell width="1">Ratio</Table.HeaderCell>
                             <Table.HeaderCell width="1">Suicide</Table.HeaderCell>
                             <Table.HeaderCell width="1">Points</Table.HeaderCell>
-                            { admin &&
-                            <Table.HeaderCell width="1"></Table.HeaderCell>
+                            { (clubAdmin || admin) &&
+                            <Table.HeaderCell width="1">Update</Table.HeaderCell>
                             }
 
                         </Table.Row>
@@ -98,4 +103,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({}, );
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Total);
+export default connect(mapStateToProps,mapDispatchToProps)(Bohurt);

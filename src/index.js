@@ -37,7 +37,8 @@ const history = createHistory();
 const muiTheme = getMuiTheme({
     palette: {
         textColor: '#000000',
-        primary1Color: '#a2a2a2'
+        primary1Color: '#a2a2a2',
+        pickerHeaderColor: '#000000'
     }
 });
 if(window.localStorage.getItem('token')) {
