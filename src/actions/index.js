@@ -56,7 +56,7 @@ export function updateUser(data) {
 }
 
 export function fetchUser(userId) {
-    const request = axios.get(`${API}fighters/${userId}`);
+    const request = axios.get(`${API}fighter/${userId}`);
 
     return {
         type:FETCH_USER,

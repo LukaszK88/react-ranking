@@ -20,6 +20,17 @@ body {
   padding: 200px 15px 200px;
 }
 
+.wc-bg{
+  position: relative;
+  width: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./background.png');
+}
+
 .table-responsive-custom{
   overflow-x: auto;
   display: block;
@@ -33,7 +44,7 @@ body {
 }
 
 .top-section{
-  margin-top: 70px;
+  margin-top: 50px;
 }
 
 .black-background{
@@ -99,4 +110,17 @@ table a {
 
 .text-red{
   color:red;
+}
+.ui.secondary.pointing.menu {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.ui.secondary.pointing.menu .item {
+  font-weight: 600;
+  transition: linear 0.5s;
+}
+
+.ui.secondary.pointing.menu .active.item {
+  border-bottom: 4px solid;
 }

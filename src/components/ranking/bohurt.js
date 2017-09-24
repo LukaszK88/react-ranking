@@ -6,6 +6,7 @@ import { Header, Image, Table } from 'semantic-ui-react'
 import UpdateBohurt from './updates/bohurt';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
+import Pagination from './pagination';
 
 
 
@@ -17,7 +18,7 @@ class Bohurt extends Component{
 
     renderRows(){
         const { admin, clubAdmin } = this.props.currentUser;
-        return _.map(this.props.fighters,(fighter) => {
+        return _.map(this.props.fighters.data,(fighter) => {
             return(
                 <Table.Row key={fighter.id}>
                     <Table.Cell>
@@ -78,7 +79,7 @@ class Bohurt extends Component{
                             <Table.HeaderCell width="1">Standing</Table.HeaderCell>
                             <Table.HeaderCell width="1">Ratio</Table.HeaderCell>
                             <Table.HeaderCell width="1">Suicide</Table.HeaderCell>
-                            <Table.HeaderCell width="1">Points</Table.HeaderCell>
+                            <Table.HeaderCell width="1">Total Points</Table.HeaderCell>
                             { (clubAdmin || admin) &&
                             <Table.HeaderCell width="1">Update</Table.HeaderCell>
                             }
@@ -89,6 +90,8 @@ class Bohurt extends Component{
                     <Table.Body>
                         {this.renderRows()}
                     </Table.Body>
+                    <Pagination fighters={this.props.fighters}/>
+
                 </Table>
             </div>
         )

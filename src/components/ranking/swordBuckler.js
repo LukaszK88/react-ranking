@@ -6,13 +6,14 @@ import { userHelper } from '../../helpers/user';
 import UpdateSwordBuckler from './updates/swordBuckler';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
+import Pagination from './pagination';
 
 
 class SwordBuckler extends Component{
     renderRows(){
         const { admin, clubAdmin } = this.props.currentUser;
 
-        return _.map(this.props.fighters,(fighter) => {
+        return _.map(this.props.fighters.data,(fighter) => {
             return(
                 <Table.Row key={fighter.id}>
                     <Table.Cell>
@@ -67,6 +68,8 @@ class SwordBuckler extends Component{
                     <Table.Body>
                         {this.renderRows()}
                     </Table.Body>
+                    <Pagination fighters={this.props.fighters}/>
+
                 </Table>
             </div>
         )

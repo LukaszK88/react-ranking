@@ -54,8 +54,17 @@ export function fetchAchievements(userId) {
     }
 }
 
-export function fetchFighters() {
-    const request = axios.get(`${API}fighters`);
+export function fetchFighters(clubId = 0, date = 0, currentPage) {
+    const request = axios.get(`${API}fighters/${clubId}/${date}?page=${currentPage}`);
+
+    return {
+        type:FETCH_FIGHTERS,
+        payload:request
+    }
+}
+
+export function fetchFightersByPage(page) {
+    const request = axios.get(page);
 
     return {
         type:FETCH_FIGHTERS,

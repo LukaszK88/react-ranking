@@ -6,13 +6,14 @@ import { userHelper } from '../../helpers/user';
 import UpdateLongsword from './updates/longsword';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
+import Pagination from './pagination';
 
 
 class Longsword extends Component{
     renderRows(){
         const { admin, clubAdmin } = this.props.currentUser;
 
-        return _.map(this.props.fighters,(fighter) => {
+        return _.map(this.props.fighters.data,(fighter) => {
             return(
                 <Table.Row key={fighter.id}>
                     <Table.Cell>
@@ -66,6 +67,8 @@ class Longsword extends Component{
                     <Table.Body>
                         {this.renderRows()}
                     </Table.Body>
+                    <Pagination fighters={this.props.fighters}/>
+
                 </Table>
             </div>
         )

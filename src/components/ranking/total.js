@@ -4,11 +4,12 @@ import { userHelper } from '../../helpers/user';
 import { Header, Image, Table} from 'semantic-ui-react'
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
+import Pagination from './pagination';
 
 class Total extends Component{
 
     renderRows(){
-        return _.map(this.props.fighters,(fighter) => {
+        return _.map(this.props.fighters.data,(fighter) => {
            return(
                <Table.Row key={fighter.id}>
                    <Table.Cell>
@@ -28,6 +29,8 @@ class Total extends Component{
         });
     }
 
+
+
     render(){
         return(
             <div>
@@ -41,6 +44,7 @@ class Total extends Component{
                     <Table.Body>
                         {this.renderRows()}
                     </Table.Body>
+                    <Pagination fighters={this.props.fighters}/>
                 </Table>
             </div>
         )
