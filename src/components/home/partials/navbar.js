@@ -44,11 +44,12 @@ class NavbarComp extends Component{
     }
 
     renderLoggedIn(){
-        if(this.props.currentUser.user) {
+        const{user, admin, clubAdmin} = this.props.currentUser;
+        if(user) {
             const menuOptions = {
                 isOpen: this.state.isMenuOpen,
                 close: this.close,
-                toggle: <a className="nav-link"  onClick={this.toggleDropdown}>{this.props.currentUser.user.username} <i
+                toggle: <a className="nav-link"  onClick={this.toggleDropdown}>{user.username} <i
                     className="fa fa-chevron-down"></i></a>,
                 align: 'right',
                 closeOnInsideClick: false,
@@ -60,9 +61,15 @@ class NavbarComp extends Component{
                         <Link className="nav-link" to="/ranking">Ranking</Link>
                     </li>
                     <DropdownMenu as="li" className="nav-item" {...menuOptions}>
-                        <li><Link to={`/profile/${this.props.currentUser.user.id}`}>Profile</Link></li>
+                        <li><Link to={`/profile/${user.id}`}>Profile</Link></li>
                         <li><UpdateUser/></li>
                         <li><ChangePassword/></li>
+                        {(admin || clubAdmin) &&
+                        <li><Link to={`/events`}>Manage events</Link></li>
+                        }
+                        { admin &&
+                        <li><Link to={`/users`}>Manage users</Link></li>
+                        }
                     </DropdownMenu>
 
                     <li className="nav-item">

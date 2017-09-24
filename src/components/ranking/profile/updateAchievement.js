@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import { Button,List, Modal } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm,change } from 'redux-form';
 import {updateAchievement} from '../../../actions/ranking';
 import { config } from '../../../config';
 import { input } from '../../../helpers/input';
@@ -21,7 +21,11 @@ class UpdateAchievement extends Component{
         this.setState({modalOpen:false});
     }
 
-    handleOpen = () => this.setState({ modalOpen: true });
+    handleOpen = () => {
+        this.props.dispatch(change('updateAchievement','category',this.props.achievement.category));
+        this.props.dispatch(change('updateAchievement','place',this.props.achievement.place));
+        this.setState({ modalOpen: true });
+    };
 
     handleClose = () => this.setState({ modalOpen: false });
 
@@ -79,18 +83,13 @@ function validate(values) {
 
 
 function mapStateToProps(state, ownProps) {
-    return {currentUser: state.currentUser,
-        initialValues: {
-            category:ownProps.achievement.category,
-            place:ownProps.achievement.place
-        }
+    return {currentUser: state.currentUser
     };
 }
 
 let InitializeFromStateForm = reduxForm({
     validate:validate,
-    form: 'updateAchievement',
-    enableReinitialize : true
+    form: 'updateAchievement'
 })(UpdateAchievement);
 
 InitializeFromStateForm = connect(

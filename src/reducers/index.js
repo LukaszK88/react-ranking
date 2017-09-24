@@ -7,6 +7,7 @@ import EventsReducer from './events/reducerEvent';
 import UserReducer from './reducerUserProfile';
 import FlashMessage from './flashMessages';
 import ClubsReducer from './reducerClubs';
+import AdminReducer from './admin';
 
 const rootReducer = combineReducers({
     fighters:FighterReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     clubs: ClubsReducer,
     profile:UserReducer,
     flashMessage:FlashMessage,
+    admin:AdminReducer,
     form: formReducer
 });
 

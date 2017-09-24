@@ -21,6 +21,9 @@ import thunk from 'redux-thunk';
 import setAuthorizationToken from './utils/setAuthorizationToken';
 import {currentUser} from './actions';
 import Profile from './components/ranking/profile/profile';
+import Events from './components/admin/events';
+import AdminUsers from './components/admin/user/user';
+
 import 'react-images-uploader/styles.css';
 import 'react-images-uploader/font.css';
 
@@ -53,6 +56,8 @@ ReactDOM.render(
         <BrowserRouter history={history}>
             <Switch>
                 <Route path="/profile/:userId" component={Profile}/>
+                <Route path="/events" component={Events}/>
+                <Route path="/users" component={AdminUsers}/>
                 <Route path="/ranking" component={TabsComp}/>
                 <Route path="/" component={Home}/>
             </Switch>

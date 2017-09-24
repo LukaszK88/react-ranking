@@ -13,7 +13,7 @@ body {
   background-size: cover;
   -o-background-size: cover;
   background-position: center;
-  background-image: url('./wcbg.png');
+  background-image: url('./img/wcbg.png');
   text-align: center;
   color: white;
 
@@ -28,7 +28,7 @@ body {
   background-size: cover;
   -o-background-size: cover;
   background-position: center;
-  background-image: url('./background.png');
+  background-image: url('./img/background.png');
 }
 
 .table-responsive-custom{
@@ -123,4 +123,8 @@ table a {
 
 .ui.secondary.pointing.menu .active.item {
   border-bottom: 4px solid;
+}
+
+.toggle-help{
+  display: flex;
 }

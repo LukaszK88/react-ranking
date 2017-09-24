@@ -57,7 +57,7 @@ class Pagination extends Component{
         return(
             <Table.Footer>
                 <Table.Row>
-                    <Table.HeaderCell colSpan='3'>
+                    <Table.HeaderCell colSpan='16'>
                         <Menu floated='left' pagination>
                             <Menu.Item icon>
                                 {this.props.fighters.total}

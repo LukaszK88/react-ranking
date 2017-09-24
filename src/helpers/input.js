@@ -31,7 +31,6 @@ export const input ={
         );
     },
     renderField:(field) => {
-
         const className = `form-group ${ field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
 
         return(
