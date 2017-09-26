@@ -128,3 +128,6 @@ table a {
 .toggle-help{
   display: flex;
 }
+.table-cell-icon{
+  display: flex;
+}

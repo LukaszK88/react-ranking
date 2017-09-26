@@ -15,6 +15,27 @@ export const input ={
             </div>
         )
     },
+
+    renderSelectSubmit: (field) => {
+        const error = !!(field.meta.touched && field.meta.error);
+        return(
+            <div>
+                <Select error={error} { ...field.input }
+                        selection
+                        onChange={(param,data) => {field.input.onChange(data.value);
+                        setTimeout(()=>{
+                            field.onChangeAction(data.value)
+                        },200)
+                        }}
+                        placeholder={field.placeholder}
+                        value={field.input.value}
+                        options={field.options}/>
+                <div style={{color:'red'}} className="text-help">
+                    { field.meta.touched ? field.meta.error : '' }
+                </div>
+            </div>
+        )
+    },
     renderSlider: (field) => {
         return(
             <div>

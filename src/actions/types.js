@@ -14,3 +14,7 @@ export const FETCH_EVENT_TYPES ='FETCH_EVENT_TYPES';
 export const DELETE_EVENT = 'DELETE_EVENT';
 export const ADD_EVENT = 'ADD_EVENT';
 export const FETCH_USERS_ADMIN = 'FETCH_USERS_ADMIN';
+export const FETCH_USERS = 'FETCH_USERS';
+export const DELETE_USER = 'DELETE_USER';
+export const FETCH_USER_ROLES = 'FETCH_USER_ROLES';
+export const UPDATE_USER_ROLE = 'UPDATE_USER_ROLE';
