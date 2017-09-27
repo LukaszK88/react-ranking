@@ -128,7 +128,7 @@ class Profile extends Component{
         if(profile.user) {
             return (
                     <div className="col-md-3">
-                        <Card>
+                        <Card className="profile-card" fluid>
                             {this.renderDropzone()}
                             <Card.Content>
                                 <Card.Header>
@@ -167,17 +167,18 @@ class Profile extends Component{
         if(profile.user) {
             return (
                 <div className="col-md-5">
-                    <Card fluid>
-                        <Card.Content>
-                            <Card.Header>
-                                {this.renderFlags()}
-                            </Card.Header>
-                        </Card.Content>
+                    <Card className="profile-card" fluid>
                         <Card.Content>
                             <Card.Header className="text-center">
                                 Fighter Info
                             </Card.Header>
-                            <hr/>
+
+                        </Card.Content>
+                        <Card.Content>
+                            <Card.Header className="flags-display">
+                                {this.renderFlags()}
+                            </Card.Header>
+
                             <div className="row">
                                 <div className="col-md-6">
                                     <List>
@@ -243,12 +244,14 @@ class Profile extends Component{
             <div>
                 <FlashMessages/>
                 <NavbarComp/>
-                <div className="container">
+                {profile.user &&
+                <div className={profile.user.club_id == '1' ? 'wc-bg' : 'ukfed-bg'}>
+                <div className="container profile">
                     <div className="row">
                         {this.renderUserImage()}
                         {this.renderUserProfile()}
                         <div className="col-md-4">
-                            <Card>
+                            <Card className="profile-card" fluid>
                                 <Card.Content>
                                     <Card.Header>
                                         Achievements
@@ -284,15 +287,18 @@ class Profile extends Component{
 
                                     </Card.Header>
                                 </Card.Content>
-                                <Card.Content>
-                                    <List>
-                                        {this.renderAchievements()}
-                                    </List>
-                                </Card.Content>
+
+                                    <Card.Content>
+                                        <List>
+                                            {this.renderAchievements()}
+                                        </List>
+                                    </Card.Content>
+
                             </Card>
                         </div>
                     </div>
                 </div>
+                </div>}
             </div>
         )
     }

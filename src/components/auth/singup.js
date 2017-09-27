@@ -1,11 +1,13 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
-import { registerUser } from '../../actions';
+import { registerUser,loginWithFacebook } from '../../actions';
 import {withRouter} from 'react-router-dom';
 import {addFlashMessage} from '../../actions/flashMessages';
 import { input } from '../../helpers/input';
+import FacebookProvider, { Login } from 'react-facebook';
+import { loading } from '../../actions/config';
 
 
 class Signup extends Component{
@@ -18,6 +20,7 @@ class Signup extends Component{
     }
 
     onSubmit(values){
+        this.props.loading(true);
         this.props.registerUser(values);
         this.setState({modalOpen:false});
     }
@@ -48,7 +51,24 @@ class Signup extends Component{
                                 type="password"
                                 component={input.renderField}
                             />
+                            <Button.Group>
                             <Button color={'black'} type="submit">Register</Button>
+                                <Button.Or />
+                                <FacebookProvider appId="1884018281856728">
+                                    <Login
+                                        scope="email"
+                                        onResponse={this.props.loginWithFacebook}
+
+                                        render={({ isLoading, isWorking, onClick }) => (
+                                            <span onClick={onClick}>
+                                            <Button color='facebook'>
+                                                <Icon name='facebook' /> Facebook
+                                            </Button>
+                                            </span>
+                                        )}
+                                    />
+                                </FacebookProvider>
+                            </Button.Group>
                         </form>
 
                     </Modal.Description>
@@ -84,4 +104,4 @@ function mapStateToProps(state) {
     return { };
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'signupForm'})(connect(mapStateToProps,{registerUser,addFlashMessage})(Signup)));
+export default withRouter(reduxForm({validate:validate, form: 'signupForm'})(connect(mapStateToProps,{registerUser,addFlashMessage,loginWithFacebook,loading})(Signup)));

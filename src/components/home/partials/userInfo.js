@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {updateUser} from '../../../actions';
 import {fetchClubs} from '../../../actions/clubs';
@@ -73,7 +73,7 @@ class UpdateUser extends Component{
 
         return(
 
-            <Modal size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<button type="button" onClick={this.handleOpen}>Personal Info </button>}>
+            <Modal size="mini" open={this.state.modalOpen}  onClose={this.handleClose} trigger={<button type="button" onClick={this.handleOpen}>Personal Info <Icon name="info"/></button>}>
                 <Modal.Header>Info</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>

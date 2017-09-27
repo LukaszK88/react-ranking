@@ -27,7 +27,9 @@ class Events extends Component{
                 <List.Item>
                     <List.Content floated='right'>
                         <EditEvent event={event}/>
+                        {this.props.currentUser.admin &&
                         <List.Icon onClick={() => this.deleteEvent(event)} size="large" name="delete"/>
+                        }
                     </List.Content>
                     <List.Icon><Flag name={event.location} /></List.Icon>
                     <List.Content>
@@ -73,7 +75,9 @@ class Events extends Component{
 }
 
 function mapStateToProps(state) {
-    return {events: state.events };
+    return {events: state.events,
+        currentUser:state.currentUser
+    };
 }
 
 

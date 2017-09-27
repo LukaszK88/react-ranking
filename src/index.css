@@ -22,6 +22,7 @@ body {
 
 .wc-bg{
   position: relative;
+  min-height: 500px;
   width: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -29,6 +30,17 @@ body {
   -o-background-size: cover;
   background-position: center;
   background-image: url('./img/background.png');
+}
+
+.ukfed-bg{
+  position: relative;
+  min-height: 500px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-position: center;
+  background-image: url('./img/ukfed.png');
 }
 
 .table-responsive-custom{
@@ -130,4 +142,15 @@ table a {
 }
 .table-cell-icon{
   display: flex;
+}
+.profile{
+  padding-top: 20px;
+}
+
+.profile-card{
+  margin-bottom: 15px!important;
+}
+.flags-display{
+  margin-bottom: 10px;
+  margin-top: -15px!important;
 }

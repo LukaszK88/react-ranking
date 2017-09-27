@@ -8,6 +8,7 @@ import UserReducer from './reducerUserProfile';
 import FlashMessage from './flashMessages';
 import ClubsReducer from './reducerClubs';
 import AdminReducer from './admin';
+import ConfigReducer from './reducerConfig';
 
 const rootReducer = combineReducers({
     fighters:FighterReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     profile:UserReducer,
     flashMessage:FlashMessage,
     admin:AdminReducer,
+    config:ConfigReducer,
     form: formReducer
 });
 

@@ -31,7 +31,6 @@ export function updatePassword(data) {
 
 export function recoverPassword(data) {
     return axios.post(`${API}user-recover`,data).then((response) => {
-        console.log(response);
         return (dispatch) => {
             dispatch(addFlashMessage('success', response.data.message));
         }

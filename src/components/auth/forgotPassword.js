@@ -31,7 +31,7 @@ class ForgotPassword extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button color={'black'} onClick={this.handleOpen} >Forgot password?</Button>}>
+            <Modal size={'tiny'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button className="float-right" size="tiny" color={'black'} onClick={this.handleOpen} >Forgot password?</Button>}>
                 <Modal.Header>Forgot Password</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>

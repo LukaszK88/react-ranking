@@ -2,10 +2,10 @@ import React,{Component} from 'react';
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
-import Login from '../../auth/login'
+import LoginModal from '../../auth/login'
 import Signup from '../../auth/singup';
 import {logout} from '../../../actions';
-import { Button, Image } from 'semantic-ui-react';
+import { Icon, Image } from 'semantic-ui-react';
 import DropdownMenu from 'react-dd-menu';
 import UpdateUser from './userInfo';
 import ChangePassword from '../../auth/changePassword';
@@ -61,14 +61,14 @@ class NavbarComp extends Component{
                         <Link className="nav-link" to="/ranking">Ranking</Link>
                     </li>
                     <DropdownMenu as="li" className="nav-item" {...menuOptions}>
-                        <li><Link to={`/profile/${user.id}`}>Profile</Link></li>
+                        <li><Link to={`/profile/${user.id}`}>Profile <Icon name="drivers license outline"/></Link></li>
                         <li><UpdateUser/></li>
                         <li><ChangePassword/></li>
                         {(admin || clubAdmin) &&
-                        <li><Link to={`/events`}>Manage events</Link></li>
+                        <li><Link to={`/events`}>Manage events <Icon name="fort awesome"/></Link></li>
                         }
                         { admin &&
-                        <li><Link to={`/users`}>Manage users</Link></li>
+                        <li><Link to={`/users`}>Manage users <Icon name="users"/></Link></li>
                         }
                     </DropdownMenu>
 
@@ -88,7 +88,7 @@ class NavbarComp extends Component{
                     <Link className="nav-link" to="/ranking">Ranking</Link>
                 </li>
                 <li className="nav-item">
-                    <Login/>
+                    <LoginModal/>
                 </li>
                 <li className="nav-item">
                     <Signup/>

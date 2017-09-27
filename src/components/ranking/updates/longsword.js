@@ -29,7 +29,7 @@ class UpdateLongsword extends Component{
     render(){
         const handleSubmit = this.props.handleSubmit;
 
-        const countryOptions = _.map(this.props.events,event => {
+        const countryOptions = _.map(this.props.events.events,event => {
             return {key:event.location, value:event.id, flag:event.location, text: `${event.title} ${event.date.substring(0,4)}`};
         });
 

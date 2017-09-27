@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button,Modal } from 'semantic-ui-react';
+import { Button,Modal,Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import {withRouter} from 'react-router-dom';
 import {addFlashMessage} from '../../actions/flashMessages';
@@ -31,7 +31,7 @@ class ChangePassword extends Component{
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'mini'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<Button onClick={this.handleOpen} >Change password</Button>}>
+            <Modal size={'mini'} open={this.state.modalOpen}  onClose={this.handleClose} trigger={<button type="button" onClick={this.handleOpen} >Change password <Icon name="key"/></button>}>
                 <Modal.Header>Change Password</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>

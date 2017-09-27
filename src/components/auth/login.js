@@ -1,28 +1,26 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux'
-import { Button, Header, Image, Modal } from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { loginUser, loginWithFacebook } from '../../actions';
 import {withRouter} from 'react-router-dom';
-import FacebookLogin from 'react-facebook-login';
 import { input } from '../../helpers/input';
 import ForgotPassword from './forgotPassword';
-
-
-class Login extends Component{
+import FacebookProvider, { Login } from 'react-facebook';
+import { loading } from '../../actions/config';
+class LoginModal extends Component{
 
     onSubmit(values){
-
-       this.props.loginUser(values);
-       this.props.history.push('/');
+        this.props.loading(true);
+        this.props.loginUser(values);
     }
 
     render(){
         const handleSubmit = this.props.handleSubmit;
 
         return(
-            <Modal size={'tiny'} trigger={<a className="nav-link">Login</a>}>
-                <Modal.Header>Login</Modal.Header>
+            <Modal size={'tiny'}  trigger={<a className="nav-link">Login</a>}>
+                <Modal.Header>Login </Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
                         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -38,15 +36,27 @@ class Login extends Component{
                                 type="password"
                                 component={input.renderField}
                             />
-                            <Button color={'black'} type="submit">Login</Button>
-                            <FacebookLogin
-                                appId="1884018281856728"
-                                fields="name,email,picture"
-                                cssClass="ui facebook button"
-                                icon="fa-facebook"
-                                textButton=" FB Login"
-                                callback={this.props.loginWithFacebook}
-                            />
+                            <Button.Group>
+
+                            <Button loading={this.props.config.loading}  color={'black'} type="submit">Login</Button>
+                                <Button.Or />
+
+                            <FacebookProvider appId="1884018281856728">
+                                <Login
+                                    scope="email"
+                                    onResponse={this.props.loginWithFacebook}
+
+                                    render={({ isLoading, isWorking, onClick }) => (
+
+                                        <span onClick={onClick}>
+                                            <Button color='facebook'>
+                                                <Icon name='facebook' /> Facebook
+                                            </Button>
+                                            </span>
+                                    )}
+                                />
+                            </FacebookProvider>
+                            </Button.Group>
                             <ForgotPassword/>
                         </form>
 
@@ -80,7 +90,7 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-    return { };
+    return {config:state.config };
 }
 
-export default withRouter(reduxForm({validate:validate, form: 'addPostForm'})(connect(mapStateToProps,{loginUser,loginWithFacebook})(Login)));
+export default withRouter(reduxForm({validate:validate, form: 'addPostForm'})(connect(mapStateToProps,{loginUser,loginWithFacebook,loading})(LoginModal)));
